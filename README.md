@@ -1,4 +1,4 @@
-# Perceptual Alignment: Real-Time Temporal Alignment for Audio Generation from Silent Videos
+# PerceptAlign: Real-Time Temporal Alignment for Audio Generation from Silent Videos
 <!--![Screenshot 2023-12-12 at 6 25 46 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/b4eb30d8-27f3-478e-9554-8bd3fee5b574)-->
 ![Screenshot 2023-12-12 at 6 26 25 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/4c73adcd-1cc1-4fe9-8197-59e78af5facf)
 

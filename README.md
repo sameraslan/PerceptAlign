@@ -2,7 +2,7 @@
 <!--![Screenshot 2023-12-12 at 6 25 46 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/b4eb30d8-27f3-478e-9554-8bd3fee5b574)-->
 ![Screenshot 2023-12-12 at 6 26 25 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/4c73adcd-1cc1-4fe9-8197-59e78af5facf)
 
-This guide provides comprehensive instructions for fine-tuning our machine learning system. It covers everything from setting up the environment to training models and running inference.
+This guide provides comprehensive instructions for running our entire pipeline. It covers everything from setting up the environment to training models, evaluating and running inference.
 
 ## Table of Contents
 1. [Setup Environment](#setup-environment)

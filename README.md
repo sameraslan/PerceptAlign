@@ -18,6 +18,7 @@ This guide provides comprehensive instructions for fine-tuning our machine learn
 Dot1k transformer/codebook
 VAS transformer/codebook
 VGGish16 put in modules/autoencoder/lpaps
+melception logs put in evaluation/
 
 ### a. Setup All Dependencies
 ```bash

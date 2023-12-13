@@ -16,7 +16,7 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 4. [Setup for Training](#setup-for-training)
 5. [Training the Codebook](#training-the-codebook)
 6. [Train the Transformer](#train-the-transformer)
-7. [Running Evaluation](#-the-traintransformer)
+7. [Running Evaluation](#evaluation)
 8. [Running Inference on Streamlit](#running-inference-on-streamlit)
 
 ## Setup Environment
@@ -505,9 +505,9 @@ ii. **Fine-Tuning from a Checkpoint:**
    - Run your eval-{dataset-name}.sh file using a GPU and observe the output
    - Depending on the size of your dataset, GPU setup, etc., this may take a few hours due to feature extraction and dynamic time warping calculations.
 
-# Setup Environment
+# Running Inference On Streamlit
 
-### a. Generalizable Streamlit Script Setup
+### Generalizable Streamlit Script Setup
 
 1. **Activate Environment:**
 

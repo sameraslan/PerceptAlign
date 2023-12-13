@@ -11,13 +11,14 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 ## Table of Contents
 
 1. [Setting Up Your Environment](#setting-up-your-environment)
-2. [Extracting Features](#extracting-features)
-3. [Preparing the Dataset](#preparing-the-dataset)
-4. [Setting Up for Training](#setting-up-for-training)
-5. [Training the Codebook](#training-the-codebook)
-6. [Training the Transformer](#training-the-transformer)
-7. [Running Evaluation](#running-evaluation)
-8. [Running Inference on Streamlit](#running-inference-on-streamlit)
+2. [Creating the FlashDot (Dot1k) Dataset](#creating-the-flashdot-dataset)
+3. [Extracting Features](#extracting-features)
+4. [Preparing the Dataset for Training](#preparing-the-dataset-for-training)
+5. [Setting Up for Training](#setting-up-for-training)
+6. [Training the Codebook](#training-the-codebook)
+7. [Training the Transformer](#training-the-transformer)
+8. [Running Evaluation](#running-evaluation)
+9. [Running Inference on Streamlit](#running-inference-on-streamlit)
 
 ## Setting Up Your Environment
 
@@ -135,7 +136,39 @@ export BOOST_ROOT=$ZZROOT
 
 If you run into any issues running denseflow, you may need to add specific libraries env variables to the ~/bashrc file
 
-*Challenges and solutions for setting up DenseFlow, including environment variables and bash-rc modifications.*
+## Creating the FlashDot Dataset
+
+We outline how to create the FlashDot (or Dot1k, creative name I know) dataset. Exhibiting videos of a red dot flashing with sound at varying frequencies and durations, this dataset boils down audio-visual temporal alignment to the most simple case and can be used for benchmarking any model of this sort.
+
+1. **Activate Environment:**
+   - Ensure the necessary environment is activated ex. `conda activate PerceptAlign_env`.
+
+2. **Run `create_dot_dataset.py`:**
+   - Navigate to the root directory where `create_dot_dataset.py` is located.
+   - Use the command line to run this script. The script offers several arguments to customize the dataset:
+     - `--num_videos`: Specify the number of videos to generate.
+     - `--random`: Add this flag to enable random variations within each video.
+     - `--total_frames`: Set the total number of frames in each video (default is 220 frames).
+     - `--min_frames_per_segment`: Define the minimum number of frames per segment for random videos (default is 10 frames).
+     - `--max_frames_per_segment`: Define the maximum number of frames per segment for random videos (default is 50 frames).
+     - `--flash_frequency_max`: Set the maximum frequency of flash for fixed pattern videos (default is 90).
+     - `--fps`: Frames per second (default is 24 fps).
+
+3. **Example Command:**
+   - To generate a dataset with 10 random videos, each having a total of 300 frames, a minimum of 15 frames per segment, a maximum of 60 frames per segment, and a flash frequency maximum of 100, use the following command:
+     
+     ```bash
+     python create_dot_dataset.py --num_videos 10 --random --total_frames 300 --min_frames_per_segment 15 --max_frames_per_segment 60 --flash_frequency_max 100 --fps 24
+     ```
+
+   - This command will create 10 videos with the specified parameters, saving them in the 'dot-videos' directory.
+
+4. **Output:**
+   - The script will output videos in the 'dot-videos' directory within the root folder.
+   - Each video will be named either `random_dot_X.mp4` or `fixed_dot_X.mp4` depending on the mode selected, where `X` is the video number.
+   - An accompanying `.wav` audio file for each video will also be generated and subsequently deleted after being integrated into the video file.
+
+Note that the script automatically handles the creation of necessary directories and the cleanup of intermediate files.
 
 ## Extracting Features
 
@@ -320,7 +353,7 @@ python extract_feature.py -i <input_dir> -o <output_dir> -m Flow -t <test_list> 
 - `-j, --workers`: Number of data loading workers.
 - `--flow_prefix`: Prefix for flow images.
 
-## Preparing the Dataset
+## Preparing the Dataset for Training
 
 ### a. Organize Dataset Videos and Features
 

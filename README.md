@@ -25,7 +25,7 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 
 | Model                                                                                                                                              |
 | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Dot1K Codebook](https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/saslan1_jh_edu/EcqGmkL54_lBu1-axIbwCBUB7CrkJSUspQX1zFyFzwz83Q?e=qU5X7W)    |
+| [Dot1K Codebook](https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/saslan1_jh_edu/EdHVO0DlYENNvAeDXx0Jh60BNnWXLLjmOkQt6QIESVh7Pg?e=8CPT4Z)    |
 | [Dot1K Transformer](https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/saslan1_jh_edu/EV8Uxe9QQG1Hl3NZMtpAb24Btkl228SbJV6z-Jn0FZgLsQ?e=vrhuD3) |
 | [VAS Codebook](https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/saslan1_jh_edu/EcqGmkL54_lBu1-axIbwCBUB7CrkJSUspQX1zFyFzwz83Q?e=jL9IXJ)      |
 | [VAS Transformer](https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/saslan1_jh_edu/EVRDGBDavWdKlzxx-eyasbUB4q1reVuGLfSdRmg6Ymc9oQ?e=JONDQv)   |

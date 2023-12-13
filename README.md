@@ -483,7 +483,7 @@ ii. **Fine-Tuning from a Checkpoint:**
 3. **Monitor Training:**
    - Check the `logs` directory for attention, reconstruction, and sampled images/audio, and additional training information.
 
-## Evaluate
+## Running Evaluation
 
 1. **Activate Environment:**
 
@@ -505,7 +505,8 @@ ii. **Fine-Tuning from a Checkpoint:**
    - Run your eval-{dataset-name}.sh file using a GPU and observe the output
    - Depending on the size of your dataset, GPU setup, etc., this may take a few hours due to feature extraction and dynamic time warping calculations.
 
-# Running Inference On Streamlit
+
+## Running Inference On Streamlit
 
 ### Generalizable Streamlit Script Setup
 

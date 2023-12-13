@@ -1,10 +1,11 @@
 # PerceptAlign: Real-Time Temporal Alignment for Audio Generation from Silent Videos
 
-<!--![Screenshot 2023-12-12 at 6 25 46 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/b4eb30d8-27f3-478e-9554-8bd3fee5b574)-->
 
-![Screenshot 2023-12-12 at 6 26 25 PM](https://github.com/sameraslan/PerceptAlign/assets/82460915/4c73adcd-1cc1-4fe9-8197-59e78af5facf)
-
-Figure 1. Our perceptual alignment loss pipeline for improved real-time temporal alignment!
+<div align="center">
+   <img src="https://github.com/sameraslan/PerceptAlign/assets/82460915/93385dac-6ef6-433d-9c9a-b192657a67b0" width="100%">
+   <br>
+    <p>Figure 1. Our perceptual alignment loss pipeline for improved real-time temporal alignment!</p>
+</div>
 
 This guide provides comprehensive instructions for running our entire pipeline. It covers everything from setting up the environment to training models, evaluating and running inference.
 
@@ -137,8 +138,14 @@ export BOOST_ROOT=$ZZROOT
 If you run into any issues running denseflow, you may need to add specific libraries env variables to the ~/bashrc file
 
 ## Creating the FlashDot Dataset
+We outline how to create the FlashDot (or Dot1k) dataset—creative name, I know. Exhibiting videos of a red dot flashing with sound at varying frequencies and durations, this dataset boils down audio-visual temporal alignment to the most simple case and can be used for benchmarking any model of this sort.
 
-We outline how to create the FlashDot (or Dot1k, creative name I know) dataset. Exhibiting videos of a red dot flashing with sound at varying frequencies and durations, this dataset boils down audio-visual temporal alignment to the most simple case and can be used for benchmarking any model of this sort.
+<div align="center">
+   <img src="https://github.com/sameraslan/PerceptAlign/assets/82460915/c1828d6e-1586-4027-84c1-437c66bdbb24" height="300">
+   <br>
+    <p>Figure 2. Set of frames from an example FlashDot video</p>
+</div>
+
 
 1. **Activate Environment:**
    - Ensure the necessary environment is activated ex. `conda activate PerceptAlign_env`.

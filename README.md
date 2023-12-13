@@ -16,8 +16,8 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 4. [Setup for Training](#setup-for-training)
 5. [Training the Codebook](#training-the-codebook)
 6. [Train the Transformer](#train-the-transformer)
-7. [Running Inference on Streamlit](#running-inference-on-streamlit)
-
+7. [Running Evaluation](#-the-traintransformer)
+8. [Running Inference on Streamlit](#running-inference-on-streamlit)
 
 ## Setup Environment
 
@@ -42,13 +42,13 @@ To unzip the files from the command line, use `tar -xzvf file.tar.gz`
 
 ```bash
 # Make sure anaconda is installed then run
-conda env create -f sime_env.yml  # Creating env for sime
+conda env create -f PerceptAlign_env  # Creating env for PerceptAlign
 ```
 
 To activate the environment, run
 
 ```bash
-conda activate sime_env
+conda activate PerceptAlign_env
 ```
 
 *Maybe provide my model for download such that they can use for fine-tuning. Might need to download some other stuff for specvqgan*
@@ -205,7 +205,7 @@ Make sure the output folder has name melspec_10s_22050hz, otherwise this won't w
 - `-n, --num_worker`: Number of worker processes to use. Default is `32`.
 
 **About Mel Spectrograms:**
-Mel Spectrograms are a critical feature representation in audio processing, especially in the context of machine learning for music and sound analysis. They represent the power spectrum of sound in a way that is more closely aligned with human auditory perception. The Mel scale more closely mimics the human ear's response to different frequencies, emphasizing the nuances in lower frequencies more than higher ones.
+Mel Spectrograms are a critical feature representation in audio processing, especially in the context of machine learning for sound analysis. They represent the power spectrum of sound in a way that is more closely aligned with human auditory perception. The Mel scale more closely mimics the human ear's response to different frequencies, emphasizing the nuances in lower frequencies more than higher ones.
 
 By converting audio signals into Mel spectrograms, our system can more effectively learn patterns and characteristics of sound that are relevant to human listeners. This conversion is especially important for tasks like sound classification, music generation, or any application where understanding the content of audio in a human-like way is crucial.
 
@@ -244,7 +244,7 @@ To extract optical flow images from videos using DenseFlow, follow these steps:
    - Provide the generated text file as input to DenseFlow. Here is an example command:
 
      ```bash
-     denseflow ./feature_extraction/urmp_optical_flow_paths2.txt -b=10 -a=tvl1 -s=1 -v -o=./urmp_dataset/flow2
+     denseflow ./feature_extraction/dot1k_optical_flow_paths.txt -b=10 -a=tvl1 -s=1 -v -o=./dot1k/flow
      ```
 
      Keep an eye on the output. Some videos may fail if they're corrupted, in which case you'll have to modify the text file, removing the corrupted file and files with flow already extracted, and rerun for the remainder of the videos.
@@ -328,7 +328,7 @@ Organize your dataset videos and corresponding extracted features (e.g., `mel_sp
 
 ### b. Setup Training Dataset Structure
 
-1. Create a new directory in your `data` folder, named after your training dataset (e.g., `music` or `vas`).
+1. Create a new directory in your `data` folder, named after your training dataset (e.g., `dot1k` or `vas`).
 2. Inside `data/{dataset_name}`, create two subfolders: `features` and `videos`.
 3. Move the feature subfolders (`melspec_10s_22050hz`, `feature_flow_bninception_dim1024_21.5fps`, `feature_rgb_bninception_dim1024_21.5fps`) into `data/{dataset_name}/features`.
 4. Move the `videos_10s_21.5fps` subfolder into `data/{dataset_name}/videos`.
@@ -390,7 +390,7 @@ Additionally, ensure you have `{dataset_name}_train.txt`, `{dataset_name}_valid.
 
    - cd into the configs folder and find this script
    - This script will create YAML files and a Python file for your specific dataset.
-   - Execute the script with the provided YAML files (`music_codebook.yaml` and `music_transformer.yaml` found in `configs`) and the Python file (`music.py` in `specvqgan/data`) as inputs.
+   - Execute the script with the provided YAML files (`dot1k_codebook.yaml` and `dot1k_transformer.yaml` found in `configs`) and the Python file (`dot1k.py` in `specvqgan/data`) as inputs.
 
    ```bash
    # Command to execute setup_training_configs.py
@@ -404,7 +404,7 @@ Additionally, ensure you have `{dataset_name}_train.txt`, `{dataset_name}_valid.
    - `--dataset_name`: Name of your dataset.
 2. **Outputs:**
 
-   - The script will generate new YAML files and a Python file, replacing references to 'music' with your `{dataset_name}`.
+   - The script will generate new YAML files and a Python file, replacing references to 'dot1k' with your `{dataset_name}`.
    - Place the new YAML files in the `configs` folder (if not already there).
    - Place the new `{dataset_name}.py` file in `specvqgan/data/` (if not already there).
 
@@ -430,7 +430,7 @@ With the configuration files set up and the training script updated, your setup 
 
 1. **Activate Environment:**
 
-   - Ensure the necessary environment is activated ex. `conda activate sime_env`.
+   - Ensure the necessary environment is activated ex. `conda activate PerceptAlign_env`.
 2. **Run Training:**
    i. **From Scratch:**
 
@@ -447,7 +447,7 @@ ii. **Fine-Tuning from a Checkpoint:**
 - To resume training from a checkpoint, use the `--resume` flag.
 - Example fine-tuning command:
   ```bash
-  python train.py --resume logs/good_vas_codebook/checkpoints/last.ckpt --base configs/music_codebook.yaml -t True --gpus 0,
+  python train.py --resume logs/2023-10-22T17-21-50_dot1k_codebook/checkpoints/last.ckpt --base configs/dot1k_codebook.yaml -t True --gpus 0,
   ```
 - Checkpoints can be found in the `logs` directory.
 
@@ -460,7 +460,7 @@ ii. **Fine-Tuning from a Checkpoint:**
 
 1. **Activate Environment:**
 
-   - Ensure the necessary environment is activated ex. `conda activate sime_env`
+   - Ensure the necessary environment is activated ex. `conda activate PerceptAlign_env`
 2. **Run Training:**
    i. **From Scratch:**
 
@@ -477,13 +477,35 @@ ii. **Fine-Tuning from a Checkpoint:**
 - To resume training from a checkpoint, use the `--resume` flag.
 - Example fine-tuning command:
   ```bash
-  python train.py --resume logs/fine-tuning_vas_transformer_oneclass/checkpoints/epoch=000015-v1.ckpt --base configs/music_transformer.yaml -t True --gpus 0, --no-test True model.params.first_stage_config.params.ckpt_path=./logs/good_codebook_firstvas_lastmusiconeclass/checkpoints/last.ckpt
+  python train.py --resume logs/fine-tuning_vas_transformer_oneclass/checkpoints/epoch=000015-v1.ckpt --base configs/dot1k_transformer.yaml -t True --gpus 0, --no-test True model.params.first_stage_config.params.ckpt_path=./logs/2023-10-22T17-21-50_dot1k_transformer/checkpoints/last.ckpt
   ```
 
 3. **Monitor Training:**
    - Check the `logs` directory for attention, reconstruction, and sampled images/audio, and additional training information.
 
-## Running Inference on Streamlit
+## Evaluation
+
+1. **Activate Environment:**
+
+   - Make sure the necessary environment is activated.
+2. **Modify Evaluation File**
+
+   - Open evaluation/eval-dot1k.sh or evaluation/eval-vas.sh
+   - If you're running evaluation on your own dataset, copy one of the files and replace all occurences of 'vas' or 'dot1k' with your {dataset-name}
+   - Modify the EXPERIMENT_PATH to the path of your experiment (likely in the logs file)
+3. **Modify Config File**
+
+   - Open evaluation/configs/eval_melception_dot1k.yaml or evaluation/configs/eval_melception_vas.yaml
+   - If you're running evaluation on your own dataset, copy one of the files and replace all occurences of 'vas' or 'dot1k' with your {dataset-name}
+   - Make sure all occurences of 'classes' correspond to your own classes
+     - Eg. replace classes:['baby', 'dog'] with classes:['violin', 'cello']
+   - If you don't want to evaluate on all metrics, set have{metric} to False
+4. **Run**
+
+   - Run your eval-{dataset-name}.sh file using a GPU and observe the output
+   - Depending on the size of your dataset, GPU setup, etc., this may take a few hours due to feature extraction and dynamic time warping calculations.
+
+# Setup Environment
 
 ### a. Generalizable Streamlit Script Setup
 
@@ -496,13 +518,13 @@ ii. **Fine-Tuning from a Checkpoint:**
    - Locate the sections with (there should be two)
 
      ```python
-     if 'vggsound.VGGSound' in config.data.params.train.target:
+     if 'vas.VAS' in config.data.params.train.target:
      ```
    - Add an `elif` with your own dataset name. Ex. replacing
 
      ```python
-     elif 'vas.VAS' in config.data.params.train.target:
-        datapath = './data/vas/'
+     elif 'dot1k.dot1k' in config.data.params.train.target:
+        datapath = './data/dot1k/'
         raw_vids_dir = os.path.join(datapath, 'video')
      ```
 
@@ -512,6 +534,18 @@ ii. **Fine-Tuning from a Checkpoint:**
      elif '{datset_name}.{datset_name}' in config.data.params.train.target:
         datapath = './data/{datset_name}/'
         raw_vids_dir = os.path.join(datapath, 'video')
+     ```
+
+     and add
+
+     ```python
+     or '{datset_name}.{datset_name}' in config.data.params.train.target
+     ```
+
+     to the line:
+
+     ```python
+     if 'vas.VAS' in config.data.params.train.target or 'dot1k.dot1k' in config.data.params.train.target:
      ```
 3. **Launch Streamlit:**
 

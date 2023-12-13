@@ -13,8 +13,9 @@ module load anaconda
 module load cuda/11.6.0
 conda activate PerceptAlign
 
-# Trying for dot1k
-EXPERIMENT_PATH=./logs/2023-12-10T07-20-27_dot1k_transformer
+# Environment Variables
+# Modify this experiment path to point to the directory of the experiment in the logs directory you want to evaluate
+EXPERIMENT_PATH=./logs/2023-12-10T07-20-27_dot1k_transformer  
 
 SPEC_DIR_PATH="./data/dot1k/features/*/melspec_10s_22050hz/"
 RGB_FEATS_DIR_PATH="./data/dot1k/features/*/feature_rgb_bninception_dim1024_21.5fps/"
@@ -54,7 +55,6 @@ python -u evaluate.py \
     patch.spec_dir_path=$SPEC_DIR_PATH \
     patch.rgb_feats_dir_path=$RGB_FEATS_DIR_PATH \
     patch.flow_feats_dir_path=$FLOW_FEATS_DIR_PATH \
-    input1.params.root=$EXPERIMENT_PATH/samples_$NOW/$SAMPLES_FOLDER   #./logs/dot1kCE-base/samples_2023-11-23T23-37-00/${SAMPLES_FOLDER}  #$EXPERIMENT_PATH/samples_$NOW/$SAMPLES_FOLDER
-    # input1.params.root=./data/dot1k/features/ # For a baseline to test on GT vs GT
+    input1.params.root=$EXPERIMENT_PATH/samples_$NOW/$SAMPLES_FOLDER 
 
 echo "Evaluation completed."

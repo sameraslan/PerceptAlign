@@ -10,16 +10,16 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 
 ## Table of Contents
 
-1. [Setup Environment](#setup-environment)
-2. [Video to Feature Extraction](#video-to-feature-extraction)
-3. [Dataset Preparation](#dataset-preparation)
-4. [Setup for Training](#setup-for-training)
+1. [Setting Up Your Environment](#setting-up-your-environment)
+2. [Extracting Features](#extracting-features)
+3. [Preparing the Dataset](#preparing-the-dataset)
+4. [Setting Up for Training](#setting-up-for-training)
 5. [Training the Codebook](#training-the-codebook)
-6. [Train the Transformer](#train-the-transformer)
+6. [Training the Transformer](#training-the-transformer)
 7. [Running Evaluation](#evaluation)
 8. [Running Inference on Streamlit](#running-inference-on-streamlit)
 
-## Setup Environment
+## Setting Up Your Environment
 
 ### a. Download All the Below Models and Unzip
 
@@ -137,7 +137,7 @@ If you run into any issues running denseflow, you may need to add specific libra
 
 *Challenges and solutions for setting up DenseFlow, including environment variables and bash-rc modifications.*
 
-## Video to Feature Extraction
+## Extracting Features
 
 Start by organizing your video files for processing:
 
@@ -320,7 +320,7 @@ python extract_feature.py -i <input_dir> -o <output_dir> -m Flow -t <test_list> 
 - `-j, --workers`: Number of data loading workers.
 - `--flow_prefix`: Prefix for flow images.
 
-## Dataset Preparation
+## Preparing the Dataset
 
 ### a. Organize Dataset Videos and Features
 
@@ -382,7 +382,7 @@ Verify that your folder structure follows this format:
 
 Additionally, ensure you have `{dataset_name}_train.txt`, `{dataset_name}_valid.txt`, `{dataset_name}_test.txt`, and `{dataset_name}_all.txt` in your `data` folder. This structure is essential for the upcoming training steps.
 
-## Setup for Training
+## Setting Up for Training
 
 ### a. Create Configuration Files
 
@@ -454,7 +454,7 @@ ii. **Fine-Tuning from a Checkpoint:**
 3. **Monitor Training:**
    - Review the `logs` directory to see original and reconstructed images/audio.
 
-## Train the Transformer
+## Training the Transformer
 
 ### a. Start Training
 
@@ -483,7 +483,7 @@ ii. **Fine-Tuning from a Checkpoint:**
 3. **Monitor Training:**
    - Check the `logs` directory for attention, reconstruction, and sampled images/audio, and additional training information.
 
-## Evaluation
+## Evaluate
 
 1. **Activate Environment:**
 

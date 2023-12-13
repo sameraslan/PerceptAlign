@@ -575,4 +575,4 @@ ii. **Fine-Tuning from a Checkpoint:**
 
 ---
 
-After following these steps, you should have a fully functional and fine-tuned silent video to audio model.
+### Temporally Aligned Video to Audio! 🫨🫨🫨

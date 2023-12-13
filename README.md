@@ -16,7 +16,7 @@ This guide provides comprehensive instructions for running our entire pipeline. 
 4. [Setting Up for Training](#setting-up-for-training)
 5. [Training the Codebook](#training-the-codebook)
 6. [Training the Transformer](#training-the-transformer)
-7. [Running Evaluation](#evaluation)
+7. [Running Evaluation](#running-evaluation)
 8. [Running Inference on Streamlit](#running-inference-on-streamlit)
 
 ## Setting Up Your Environment

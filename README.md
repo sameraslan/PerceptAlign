@@ -3,7 +3,7 @@
 <div align="center">
    <img src="https://github.com/sameraslan/PerceptAlign/assets/82460915/93385dac-6ef6-433d-9c9a-b192657a67b0" width="100%">
    <br>
-    <p>Figure 1. Our perceptual alignment loss pipeline for improved real-time temporal alignment!</p>
+    <p>Figure 1. Our perceptual alignment loss pipeline for improved real-time temporal alignment!</p> 
 </div>
 
 ## Overview

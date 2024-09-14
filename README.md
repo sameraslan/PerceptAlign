@@ -1,13 +1,15 @@
 # PerceptAlign: Real-Time Temporal Alignment for Audio Generation from Silent Videos
 
-
 <div align="center">
    <img src="https://github.com/sameraslan/PerceptAlign/assets/82460915/93385dac-6ef6-433d-9c9a-b192657a67b0" width="100%">
    <br>
     <p>Figure 1. Our perceptual alignment loss pipeline for improved real-time temporal alignment!</p>
 </div>
 
-This guide provides comprehensive instructions for running our entire pipeline. It covers everything from setting up the environment to training models, evaluating and running inference.
+## Overview
+PerceptAlign addresses the challenging task of generating temporally aligned audio from silent videos. Leveraging transformer models to predict spectrogram slices, this project introduces a novel approach to improving the synchronization between video events and their corresponding audio outputs. Central to the method is the Perceptual Alignment Loss (PAL) function, designed to align predicted audio with visual cues by drawing inspiration from human auditory-visual synchrony.
+
+This repository provides a comprehensive guide to running the PerceptAlign pipeline, which includes setting up the environment, generating the FlashDot dataset for evaluation, training the models, and performing real-time inference. Whether you're looking to reproduce the results, fine-tune the models, or explore audio-visual temporal alignment, this guide covers everything you need to get started.
 
 ## Table of Contents
 

@@ -11,6 +11,8 @@ PerceptAlign addresses the challenging task of generating temporally aligned aud
 
 This repository provides a comprehensive guide to running the PerceptAlign pipeline, which includes setting up the environment, generating the FlashDot dataset for evaluation, training the models, and performing real-time inference. Whether you're looking to reproduce the results, fine-tune the models, or explore audio-visual temporal alignment, this guide covers everything you need to get started.
 
+Learn more with the [PerceptAlign Paper](https://github.com/user-attachments/files/19041265/Perceptual-Alignment-Paper.pdf).
+
 ## Table of Contents
 
 1. [Setting Up Your Environment](#setting-up-your-environment)
@@ -618,3 +620,4 @@ ii. **Fine-Tuning from a Checkpoint:**
 ---
 
 ### Temporally Aligned Video to Audio! 🫨🫨🫨
+

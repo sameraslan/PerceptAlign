@@ -16,10 +16,10 @@ Significance file for tab:vas: `work/results/sig_vas_test.json` (present).
 | VQGAN reconstruction (dev) | \|Lag\| (ms) (lower better) | `2.7` | work/flashdot_std/ref_recon/metrics_dev_s0.json | `abs_lag_ms` |
 | VQGAN reconstruction (dev) | Within 1 frame (higher better) | `1.000` | work/flashdot_std/ref_recon/metrics_dev_s0.json | `lag_within_1vf` |
 | VQGAN reconstruction (dev) | Sync acc. (higher better) | `1.000` | work/flashdot_std/ref_recon/metrics_dev_s0.json | `sync_acc_tol1` |
-| VQGAN reconstruction (test) | Tone F1 (higher better) | `\placeholder{}` | missing: work/flashdot_std/ref_recon/metrics_test_s0[_<hash>].json | `act_f1` |
-| VQGAN reconstruction (test) | \|Lag\| (ms) (lower better) | `\placeholder{}` | missing: work/flashdot_std/ref_recon/metrics_test_s0[_<hash>].json | `abs_lag_ms` |
-| VQGAN reconstruction (test) | Within 1 frame (higher better) | `\placeholder{}` | missing: work/flashdot_std/ref_recon/metrics_test_s0[_<hash>].json | `lag_within_1vf` |
-| VQGAN reconstruction (test) | Sync acc. (higher better) | `\placeholder{}` | missing: work/flashdot_std/ref_recon/metrics_test_s0[_<hash>].json | `sync_acc_tol1` |
+| VQGAN reconstruction (test) | Tone F1 (higher better) | `0.971` | work/flashdot_std/ref_recon/metrics_test_s0.json | `act_f1` |
+| VQGAN reconstruction (test) | \|Lag\| (ms) (lower better) | `4.9` | work/flashdot_std/ref_recon/metrics_test_s0.json | `abs_lag_ms` |
+| VQGAN reconstruction (test) | Within 1 frame (higher better) | `0.995` | work/flashdot_std/ref_recon/metrics_test_s0.json | `lag_within_1vf` |
+| VQGAN reconstruction (test) | Sync acc. (higher better) | `1.000` | work/flashdot_std/ref_recon/metrics_test_s0.json | `sync_acc_tol1` |
 | CE (teacher forcing) (dev) | Tone F1 (higher better) | `0.414` | work/runs/fd2_ce/metrics_dev_s0.json | `act_f1` |
 | CE (teacher forcing) (dev) | \|Lag\| (ms) (lower better) | `423` | work/runs/fd2_ce/metrics_dev_s0.json | `abs_lag_ms` |
 | CE (teacher forcing) (dev) | Within 1 frame (higher better) | `0.120` | work/runs/fd2_ce/metrics_dev_s0.json | `lag_within_1vf` |
@@ -44,22 +44,22 @@ Significance file for tab:vas: `work/results/sig_vas_test.json` (present).
 | CE, corrupted prefix, best of 8 (dev) | \|Lag\| (ms) (lower better) | `228` | work/runs/fd2_ce_pk05/metrics_dev_s0_rr8.json | `abs_lag_ms` |
 | CE, corrupted prefix, best of 8 (dev) | Within 1 frame (higher better) | `0.480` | work/runs/fd2_ce_pk05/metrics_dev_s0_rr8.json | `lag_within_1vf` |
 | CE, corrupted prefix, best of 8 (dev) | Sync acc. (higher better) | `0.645` | work/runs/fd2_ce_pk05/metrics_dev_s0_rr8.json | `sync_acc_tol1` |
-| CE, corrupted prefix (test) | Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0[_<hash>].json | `act_f1` |
-| CE, corrupted prefix (test) | \|Lag\| (ms) (lower better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0[_<hash>].json | `abs_lag_ms` |
-| CE, corrupted prefix (test) | Within 1 frame (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0[_<hash>].json | `lag_within_1vf` |
-| CE, corrupted prefix (test) | Sync acc. (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0[_<hash>].json | `sync_acc_tol1` |
-|   best of 8 (test) | Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0_rr8[_<hash>].json | `act_f1` |
-|   best of 8 (test) | \|Lag\| (ms) (lower better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0_rr8[_<hash>].json | `abs_lag_ms` |
-|   best of 8 (test) | Within 1 frame (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0_rr8[_<hash>].json | `lag_within_1vf` |
-|   best of 8 (test) | Sync acc. (higher better) | `\placeholder{}` | missing: work/runs/fd2_ce_pk05/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s1/metrics_test_s0_rr8[_<hash>].json<br>missing: work/runs/fd2_ce_pk05_s2/metrics_test_s0_rr8[_<hash>].json | `sync_acc_tol1` |
-|   self-training, random selection (test) | Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/fd_st_rand/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s2/metrics_test_s0[_<hash>].json | `act_f1` |
-|   self-training, random selection (test) | \|Lag\| (ms) (lower better) | `\placeholder{}` | missing: work/runs/fd_st_rand/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s2/metrics_test_s0[_<hash>].json | `abs_lag_ms` |
-|   self-training, random selection (test) | Within 1 frame (higher better) | `\placeholder{}` | missing: work/runs/fd_st_rand/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s2/metrics_test_s0[_<hash>].json | `lag_within_1vf` |
-|   self-training, random selection (test) | Sync acc. (higher better) | `\placeholder{}` | missing: work/runs/fd_st_rand/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_rand_s2/metrics_test_s0[_<hash>].json | `sync_acc_tol1` |
-|   self-training, PAL selection (test) | Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/fd_st_pal/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s2/metrics_test_s0[_<hash>].json | `act_f1` |
-|   self-training, PAL selection (test) | \|Lag\| (ms) (lower better) | `\placeholder{}` | missing: work/runs/fd_st_pal/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s2/metrics_test_s0[_<hash>].json | `abs_lag_ms` |
-|   self-training, PAL selection (test) | Within 1 frame (higher better) | `\placeholder{}` | missing: work/runs/fd_st_pal/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s2/metrics_test_s0[_<hash>].json | `lag_within_1vf` |
-|   self-training, PAL selection (test) | Sync acc. (higher better) | `\placeholder{}` | missing: work/runs/fd_st_pal/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/fd_st_pal_s2/metrics_test_s0[_<hash>].json | `sync_acc_tol1` |
+| CE, corrupted prefix (test) | Tone F1 (higher better) | `0.495` | work/runs/fd2_ce_pk05/metrics_test_s0_4e2e1b.json | `act_f1` |
+| CE, corrupted prefix (test) | \|Lag\| (ms) (lower better) | `326` | work/runs/fd2_ce_pk05/metrics_test_s0_4e2e1b.json | `abs_lag_ms` |
+| CE, corrupted prefix (test) | Within 1 frame (higher better) | `0.210` | work/runs/fd2_ce_pk05/metrics_test_s0_4e2e1b.json | `lag_within_1vf` |
+| CE, corrupted prefix (test) | Sync acc. (higher better) | `0.245` | work/runs/fd2_ce_pk05/metrics_test_s0_4e2e1b.json | `sync_acc_tol1` |
+|   best of 8 (test) | Tone F1 (higher better) | `0.549` | work/runs/fd2_ce_pk05/metrics_test_s0_rr8_fe78cf.json | `act_f1` |
+|   best of 8 (test) | \|Lag\| (ms) (lower better) | `255` | work/runs/fd2_ce_pk05/metrics_test_s0_rr8_fe78cf.json | `abs_lag_ms` |
+|   best of 8 (test) | Within 1 frame (higher better) | `0.415` | work/runs/fd2_ce_pk05/metrics_test_s0_rr8_fe78cf.json | `lag_within_1vf` |
+|   best of 8 (test) | Sync acc. (higher better) | `0.680` | work/runs/fd2_ce_pk05/metrics_test_s0_rr8_fe78cf.json | `sync_acc_tol1` |
+|   self-training, random selection (test) | Tone F1 (higher better) | `0.452` | work/runs/fd_st_rand/metrics_test_s0_a8ddd8.json | `act_f1` |
+|   self-training, random selection (test) | \|Lag\| (ms) (lower better) | `363` | work/runs/fd_st_rand/metrics_test_s0_a8ddd8.json | `abs_lag_ms` |
+|   self-training, random selection (test) | Within 1 frame (higher better) | `0.150` | work/runs/fd_st_rand/metrics_test_s0_a8ddd8.json | `lag_within_1vf` |
+|   self-training, random selection (test) | Sync acc. (higher better) | `0.195` | work/runs/fd_st_rand/metrics_test_s0_a8ddd8.json | `sync_acc_tol1` |
+|   self-training, PAL selection (test) | Tone F1 (higher better) | `0.485` | work/runs/fd_st_pal/metrics_test_s0_eb21f7.json | `act_f1` |
+|   self-training, PAL selection (test) | \|Lag\| (ms) (lower better) | `339` | work/runs/fd_st_pal/metrics_test_s0_eb21f7.json | `abs_lag_ms` |
+|   self-training, PAL selection (test) | Within 1 frame (higher better) | `0.145` | work/runs/fd_st_pal/metrics_test_s0_eb21f7.json | `lag_within_1vf` |
+|   self-training, PAL selection (test) | Sync acc. (higher better) | `0.205` | work/runs/fd_st_pal/metrics_test_s0_eb21f7.json | `sync_acc_tol1` |
 
 ## tab:vas (tab_vas.tex)
 

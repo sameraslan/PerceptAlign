@@ -10,7 +10,7 @@
     Model & Split & Tone F1 $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Within 1 frame $\uparrow$ & Sync acc.\ $\uparrow$ \\
     \midrule
     VQGAN reconstruction                                 & dev  & 0.970 & 2.7 & 1.000 & 1.000 \\
-    VQGAN reconstruction                                 & test & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    VQGAN reconstruction                                 & test & 0.971 & 4.9 & 0.995 & 1.000 \\
     \midrule
     CE (teacher forcing)$^{\dagger}$                     & dev  & 0.414 & 423 & 0.120 & 0.165 \\
     CE, corrupted prefix ($p_{\mathrm{keep}} = 0.5$)$^{\dagger}$ & dev  & 0.499 & 306 & 0.170 & 0.245 \\
@@ -20,10 +20,10 @@
     \midrule
     CE, corrupted prefix, best of 8$^{\dagger}$          & dev  & 0.535 & 228 & 0.480 & 0.645 \\
     \midrule
-    CE, corrupted prefix                                 & test & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad best of 8                                      & test & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-training, random selection                & test & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-training, PAL selection                   & test & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE, corrupted prefix$^{\dagger}$                     & test & 0.495 & 326 & 0.210 & 0.245 \\
+    \quad best of 8$^{\dagger}$                          & test & 0.549 & 255 & 0.415 & 0.680 \\
+    \quad self-training, random selection$^{\dagger}$    & test & 0.452 & 363 & 0.150 & 0.195 \\
+    \quad self-training, PAL selection$^{\dagger}$       & test & 0.485 & 339 & 0.145 & 0.205 \\
     \bottomrule
   \end{tabular}
 \end{table}

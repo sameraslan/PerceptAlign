@@ -2,7 +2,7 @@
 \providecommand{\std}[1]{\,{\scriptsize$\pm$#1}}
 \begin{table}[t]
   \centering
-  \caption{Candidate selection on the test split: every row chooses among the same 8 free-running samples per clip. FlashDot: corruption-trained CE generator, 200 clips, mean $\pm$ std over three generator seeds. VAS: pretrained SpecVQGAN, 256 clips, one run; its FID uses these clips only and is not comparable with \cref{tab:vas}. $\sigma$: width of the binding window on the audio-early side, $\sigma_{\mathrm{late}}$ on the audio-late side (\cref{eq:window}). Sync: held-out critic at tolerance 1. The oracle keeps the candidate with the best true tone F1 (FlashDot) or smallest $|$lag$|$ (VAS).}
+  \caption{Candidate selection on the test split: every row chooses among the same 8 free-running samples per clip; the ``One sample'' row is the first of these candidates, a separate draw from the single-sample rows of \cref{tab:flashdot}. FlashDot: corruption-trained CE generator, 200 clips, mean $\pm$ std over three generator seeds. VAS: pretrained SpecVQGAN, a 256-clip subset of the test list (to bound sampling time), one run; its FID uses these clips only and is not comparable with \cref{tab:vas}. $\sigma$: width of the binding window on the audio-early side, $\sigma_{\mathrm{late}}$ on the audio-late side (\cref{eq:window}). Sync: held-out critic at tolerance 1. The oracle keeps the candidate with the best true tone F1 (FlashDot) or smallest $|$lag$|$ (VAS).}
   \label{tab:window}
   \small
   \setlength{\tabcolsep}{3.2pt}

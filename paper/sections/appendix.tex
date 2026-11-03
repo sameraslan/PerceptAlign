@@ -1,7 +1,7 @@
 \section{Relation to an earlier draft}
 \label{app:earlier}
 
-An unpublished 2023 draft of this work reported results for an earlier implementation of the alignment loss. In that implementation the loss could not influence the generator: the predicted spectrogram was decoded from the argmax of the transformer's logits inside a function that ran without gradient tracking, so no gradient reached the transformer, and the only parameters the loss touched, those of its two feature extractors, were not in the optimizer. All numbers in that draft are superseded by this paper. The experiments reported here were rerun with a new implementation in which the gradient does reach the transformer (\cref{sec:pal-loss}); with that path in place, the loss the draft intended does not improve timing (\cref{sec:res-loss}).
+An unpublished 2023 draft of this project reported results from an earlier implementation of the alignment loss, and all of its numbers are withdrawn. In that code the loss could not influence the generator (the predicted spectrogram was decoded from the argmax of the transformer's logits inside a function that ran without gradient tracking, so no gradient reached the transformer), the parameters of the loss's two feature extractors were not in the optimizer, and offsets were mis-indexed. Every result in this paper comes from a re-run with a new implementation in which the gradient reaches the transformer (\cref{sec:pal-loss}).
 
 \section{FlashDot example and metric check values}
 \label{app:extra}
@@ -41,7 +41,7 @@ An unpublished 2023 draft of this work reported results for an earlier implement
 
 \begin{table}[h]
   \centering
-  \caption{Hyperparameters. Values are those of the reported runs; red entries are not yet fixed.}
+  \caption{Hyperparameters. Values are those of the reported runs.}
   \label{tab:hparams}
   \small
   \begin{tabular}{llc}

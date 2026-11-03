@@ -21,7 +21,7 @@ The critic has an audio encoder and a video encoder of the same structure: two b
 \subsection{Perceptual Alignment Loss}
 \label{sec:pal}
 
-For offsets $o \in \{-K, \dots, K\}$ (in video frames), PAL compares audio frame $i$ with video frame $i + o$, so a negative offset means the audio event comes after the visual one (audio late). The central frames $i \in [K, T-K)$ are split into $S$ equal consecutive segments $I_1, \dots, I_S$, so every offset compares the same number of real frames. For segment $s$,
+For offsets $o \in \{-K, \dots, K\}$ (in video frames), PAL\footnote{The name reflects the motivation from the temporal binding window; \cref{sec:discussion} reports that our results do not support a perceptual benefit of the window.} compares audio frame $i$ with video frame $i + o$, so a negative offset means the audio event comes after the visual one (audio late). The central frames $i \in [K, T-K)$ are split into $S$ equal consecutive segments $I_1, \dots, I_S$, so every offset compares the same number of real frames. For segment $s$,
 \begin{equation}
   C_{s,o} = \frac{1}{|I_s|} \sum_{i \in I_s} \langle a_i, v_{i+o} \rangle, \qquad
   p_{s,o} = \frac{\exp(C_{s,o}/\tau)}{\sum_{o'=-K}^{K} \exp(C_{s,o'}/\tau)} .
@@ -34,7 +34,7 @@ The target is a window over offsets with weight one at zero,
   \qquad W_s = \sum_{o=-K}^{K} w_o \, p_{s,o} \in (0, 1] .
   \label{eq:window}
 \end{equation}
-The symmetric window has $\sigma_{\mathrm{late}} = \sigma$; the asymmetric option sets $\sigma_{\mathrm{late}} > \sigma$, widening the window on the audio-late side in the direction of the human asymmetry. With $\sigma = 0$ the window is the indicator of zero offset. PAL averages the windowed mass over segments and takes the negative logarithm:
+The symmetric window has $\sigma_{\mathrm{late}} = \sigma$; the asymmetric option sets $\sigma_{\mathrm{late}} > \sigma$, widening the window on the audio-late side in the direction of the human asymmetry. For $\sigma_o = 0$ we take $w_o$ to be the indicator of $o = 0$, so $\sigma = 0$ scores exact zero offset only. PAL averages the windowed mass over segments and takes the negative logarithm:
 \begin{equation}
   \PAL = -\log\!\left(\frac{1}{S}\sum_{s=1}^{S} W_s\right).
   \label{eq:pal}
@@ -96,4 +96,4 @@ Two cheap probes tell, before a long training run, whether a critic-based loss c
 We compute development cross-entropy twice, once with each clip's own visual features and once with the features of a different development clip, and repeat both with a fully corrupted prefix ($p_{\mathrm{keep}} = 0$). The first gap shows whether the model uses the video at all; the second, and its level against uniform ($\log |V| \approx 4.85$), whether the video alone can carry its predictions. If it cannot, a loss that needs the model to use the video has little to work with.
 
 \paragraph{Free-logit attack.}
-We replace the generator with free logits for eight development clips, initialized at random and optimized by Adam (learning rate 0.1, 200 steps) to minimize PAL through the same straight-through decoding and window as in training. If the PAL reached matches that of the ground-truth codes while the timing metrics (\cref{sec:metrics}) of the decoded optimum stay near those of random codes, the critic can be satisfied by audio that does not follow the video, and a generator trained against it can learn the same shortcut.
+We replace the generator with free logits for eight development clips, initialized at random and optimized by Adam (learning rate 0.1, 200 steps) to minimize PAL through the same straight-through decoding and window as in training. If the PAL reached matches that of the ground-truth codes while the timing metrics (\cref{sec:metrics}) of the decoded optimum stay near those of random codes, the critic can be satisfied by audio that does not follow the video. We hypothesize that a generator trained against it can learn the same shortcut; we did not test this directly.

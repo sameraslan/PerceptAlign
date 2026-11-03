@@ -19,32 +19,7 @@ The envelope lag recovers the injected delay exactly. Onset F1 is flat up to 93\
 \subsection{PAL as a training loss does not improve timing}
 \label{sec:res-loss}
 
-\begin{table}[t]
-  \centering
-  \caption{FlashDot. Top: references. Middle: PAL as a loss and the CE baselines, trained from scratch (development split, seed 0, 2000 steps unless stated). Bottom: PAL as a reward. Sync acc.\ is the held-out critic at tolerance 1 (chance $\approx 0.14$).}
-  \label{tab:flashdot}
-  \small
-  \begin{tabular}{llccc}
-    \toprule
-    Model & Split & Tone F1 $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Sync acc.\ $\uparrow$ \\
-    \midrule
-    VQGAN reconstruction                       & dev  & 0.970 & \placeholder{2.7} & 1.000 \\
-    \midrule
-    CE (teacher forcing)                       & dev  & 0.414 & 423 & 0.165 \\
-    CE, corrupted prefix ($p_{\mathrm{keep}} = 0.5$) & dev  & 0.499 & 306 & 0.245 \\
-    CE + PAL, teacher-forced (3000 steps)      & dev  & 0.297 & 474 & 0.090 \\
-    CE + PAL, half-corrupted PAL prefix        & dev  & 0.228 & 484 & 0.120 \\
-    CE + PAL, fully corrupted PAL prefix       & dev  & 0.279 & 491 & 0.125 \\
-    \midrule
-    CE, corrupted prefix, best of 8            & dev  & 0.535 & \placeholder{228} & 0.645 \\
-    \midrule
-    CE, corrupted prefix                       & test & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad best of 8                            & test & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-training, random selection      & test & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-training, PAL selection         & test & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\input{generated/tab_flashdot}
 
 On FlashDot, every way of adding PAL to the loss lowers timing quality (\cref{tab:flashdot}, middle). With teacher-forced logits, tone F1 falls from 0.414 to 0.297 and held-out sync accuracy from 0.165 to 0.090, below chance, even with 1000 more training steps. Computing PAL from a half or fully corrupted prefix, so that the video is the only source of timing, does no better (tone F1 0.228 and 0.279). Corrupting the prefix of the cross-entropy pass alone, with no critic, helps instead: tone F1 0.499, $|$lag$|$ 306\,ms. The two diagnostics of \cref{sec:diagnostics} show why the loss fails.
 
@@ -66,27 +41,7 @@ Corrupting the PAL prefix removes the shortcut through the prefix but opens anot
 
 Used to choose among the generator's own samples, the same critic helps. Keeping the best of eight free-running samples from the corruption-trained CE model (candidates scored with $\sigma = 0$) raises tone F1 from 0.499 to 0.535, the share of clips within one video frame from \placeholder{0.17} to 0.48, and held-out sync accuracy from 0.245 to 0.645 on the FlashDot development split (\cref{tab:flashdot}). The tone F1 gain is modest; the larger held-out gain partly reflects that the two critics share features and model family. \placeholder{Paragraph: FlashDot test results for best-of-8 and self-training against random selection.}
 
-\begin{table}[t]
-  \centering
-  \caption{VAS test results (768 clips of the SpecVQGAN \texttt{vas\_valid} list), one sample per clip. Sync acc.\ is the held-out critic at tolerance 0 / 1 (chance $\approx 0.05$ / $0.14$). On.: onset; Env.: envelope correlation; $|$Lag$|$ in ms; 1 fr.: share of clips with $|$lag$|$ within one video frame. Fine-tuned rows train LoRA adapters with the same budget.}
-  \label{tab:vas}
-  \small
-  \setlength{\tabcolsep}{3.2pt}
-  \begin{tabular}{lccccccccc}
-    \toprule
-    Model & On.\ F1 $\uparrow$ & On.\ AP $\uparrow$ & Env.\ $\uparrow$ & $|$Lag$|$ $\downarrow$ & 1 fr.\ $\uparrow$ & Sync acc.\ $\uparrow$ & FID $\downarrow$ & MKL $\downarrow$ \\
-    \midrule
-    Ground truth          & -- & -- & -- & -- & -- & 0.285 / 0.536 & -- & -- \\
-    VQGAN reconstruction  & 0.813 & 0.778 & 0.918 & 0.2 & 100\% & 0.277 / 0.518 & 6.0 & 1.03 \\
-    \midrule
-    Pretrained SpecVQGAN  & 0.368 & 0.206 & 0.003 & 502 & 5.6\% & 0.061 / 0.167 & 27.8 & 5.81 \\
-    \quad best of \placeholder{N} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad GT-only fine-tune & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-train, random & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-train, PAL & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\input{generated/tab_vas}
 
 On VAS (\cref{tab:vas}), the VQGAN reconstruction reaches FID 6.0 and MKL 1.03, matching the published codebook numbers (6.0 and 1.0), which checks our port of the evaluation. The pretrained SpecVQGAN transformer (top-$k$ 100, one sample per clip) gives FID 27.8 and MKL 5.81 (published 25.4 and 5.9). Its timing is close to chance: envelope correlation 0.003, $|$lag$|$ 502\,ms, 5.6\% of clips within one frame, and held-out sync accuracy 0.061 / 0.167 against chance levels of about 0.05 / 0.14. The ground truth itself reaches only 0.285 / 0.536 under the held-out critic, which bounds what that metric can show. \placeholder{Paragraph: self-training with PAL selection against random selection and ground-truth-only fine-tuning on timing and FID/MKL; best-of-$N$ and its test-time cost; per-class results in the appendix.}
 

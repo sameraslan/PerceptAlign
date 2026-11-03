@@ -4,7 +4,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/pipeline.pdf}
-  \caption{Two uses of one frozen critic. Stage 1: the critic embeds a real spectrogram (ground truth or its VQGAN reconstruction) and the clip's visual features and is trained so that zero offset wins the softmax over offsets. PAL as a loss (\cref{sec:pal-loss}): a window of the transformer's logits is decoded with a straight-through estimator, scored by the critic, and PAL is added to the cross-entropy loss. PAL as a reward (\cref{sec:reward}): free-running samples are decoded and scored, and the lowest-PAL sample is kept for output or for fine-tuning.}
+  \caption{Two uses of one frozen critic. (a) Stage 1: the critic embeds a real spectrogram (ground truth or its VQGAN reconstruction) and the clip's visual features and is trained so that zero offset wins the softmax over offsets. (b) PAL as a loss (\cref{sec:pal-loss}): a window of the transformer's logits is decoded with a straight-through estimator, scored by the critic, and PAL is added to the cross-entropy loss. (c) PAL as a reward (\cref{sec:reward}): free-running samples are decoded and scored, and the lowest-PAL sample is kept for output or for fine-tuning.}
   \label{fig:pipeline}
 \end{figure}
 

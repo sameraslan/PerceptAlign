@@ -7,8 +7,8 @@ onset_f1      onset F1 (mir_eval matching, +-tol s) between onsets detected in t
               and the ground-truth spectrogram
 onset_ap      average precision of generated onset peaks ranked by onset strength, a peak
               counting as a hit when it matches an unmatched ground-truth onset within tol
-env_corr      Pearson correlation of the onset-strength envelopes, smoothed and resampled to
-              the video frame rate (21.2 fps)
+env_corr      Pearson correlation of the two onset-strength envelopes (Gaussian-smoothed, at the
+              mel frame rate)
 lag_ms        lag (ms) that maximises the cross-correlation of the two envelopes within
               +-max_lag_s; |lag| is a direct estimate of the audio-video offset
 dtw           DTW-Euclidean on per-clip standardised mel frames (the metric of the earlier

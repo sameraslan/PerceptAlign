@@ -40,6 +40,7 @@ def load_generator(run, dev):
         add_lora(gpt, a.lora_rank, a.lora_alpha)
     missing, unexpected = gpt.load_state_dict(ck['state_dict'], strict=a.lora_rank == 0)
     assert not unexpected, unexpected[:5]
+    assert not any(k.endswith('.A') or k.endswith('.B') for k in missing), 'adapter weights missing'
     return gpt.to(dev).eval(), a
 
 
@@ -102,6 +103,8 @@ def main():
     ap.add_argument('--out', default=None)
     ap.add_argument('--rerank', type=int, default=1, help='draw this many samples per clip and keep the best under --rerank_critic')
     ap.add_argument('--rerank_critic', default=None)
+    ap.add_argument('--rr_sigma', type=float, default=1.0, help='binding-window width used to score candidates')
+    ap.add_argument('--rr_reduce', default='mean_then_log')
     args = ap.parse_args()
     dev = 'mps' if torch.backends.mps.is_available() else 'cpu'
     root = Path(args.data)
@@ -111,6 +114,13 @@ def main():
     out_dir = Path(args.out or (args.run if args.run not in ('gt', 'recon') else root / f'ref_{args.run}'))
     out_dir.mkdir(parents=True, exist_ok=True)
     tag = f'{args.split}_s{args.seed}' + (f'_n{N}' if args.limit else '') + (f'_rr{args.rerank}' if args.rerank > 1 else '')
+    if args.run not in ('gt', 'recon'):
+        # samples are cached; the cache key covers everything that changes them
+        import hashlib
+        ck_path = Path(args.run) if str(args.run).endswith('.ckpt') else Path(args.run) / 'last.pt'
+        key = json.dumps([str(ck_path), ck_path.stat().st_mtime, args.top_k, args.temperature,
+                          args.rerank_critic, args.rr_sigma, args.rr_reduce])
+        tag += '_' + hashlib.md5(key.encode()).hexdigest()[:6]
 
     if args.run == 'gt':
         gen = np.asarray(gt[:N])
@@ -139,7 +149,8 @@ def main():
                         break
                     c, ca = rr
                     with torch.no_grad():
-                        sc, _ = pal_loss(c.embed_audio(m.clamp(-1, 1)), c.embed_video(f), ca['K'], ca['segments'], ca['tau'], ca['sigma'], ca['reduce'])
+                        sc, _ = pal_loss(c.embed_audio(m.clamp(-1, 1)), c.embed_video(f), ca['K'], ca['segments'],
+                                         ca['tau'], args.rr_sigma, args.rr_reduce)
                     if best is None:
                         best, best_score = m, sc
                     else:
@@ -165,8 +176,8 @@ def main():
         res.update(critic_scores(args.eval_critic, gen, feats[:N], dev))
     if args.semantic:
         from perceptalign import semantic_metrics as sm
-        fg = sm.melception_features(gen.astype(np.float32), dev, 16)
-        fr_ = sm.melception_features(np.asarray(gt[:N], np.float32), dev, 16)
+        fg = sm.melception_features(gen.astype(np.float32), dev, 4)
+        fr_ = sm.melception_features(np.asarray(gt[:N], np.float32), dev, 4)
         res.update(fid=float(sm.fid(fg['2048'], fr_['2048'])), mkl=float(sm.mkl(fg['logits'], fr_['logits'])),
                    isc=float(sm.inception_score(fg['logits_unbiased'])[0]))
     (out_dir / f'metrics_{tag}.json').write_text(json.dumps(res, indent=1))

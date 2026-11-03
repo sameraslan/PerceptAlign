@@ -40,6 +40,13 @@ def load_init(args, dev):
         base_args = dict(init=args.init, lora_rank=args.lora_rank, lora_alpha=args.lora_alpha, amp=1)
         return gpt.to(dev), base_args
     gpt, a = load_generator(args.init, dev)
+    if a.get('lora_rank', 0) > 0:
+        for n, p in gpt.named_parameters():
+            p.requires_grad = n.endswith('.A') or n.endswith('.B')
+    else:
+        gpt.float()  # full fine-tuning stays in fp32
+        for p in gpt.parameters():
+            p.requires_grad = True
     return gpt, dict(a)
 
 
@@ -52,7 +59,7 @@ def score_candidates(gpt, vq, critic, ca, feats, args, dev):
             t = gpt.sample(feats, top_k=args.top_k)
             mel = torch.cat([vq.decode_tokens(t[j:j + 2])[:, 0].float() for j in range(0, len(t), 2)])
         l, _ = pal_loss(critic.embed_audio(mel.clamp(-1, 1)), critic.embed_video(feats.float()),
-                        args.K, args.segments, args.tau, args.sigma, args.reduce, args.sigma_late)
+                        ca['K'], ca['segments'], ca['tau'], args.sigma, args.reduce, args.sigma_late)
         toks.append(t); scores.append(l)
     return torch.stack(toks), torch.stack(scores)
 
@@ -78,9 +85,6 @@ def main():
     ap.add_argument('--lr', type=float, default=1e-4)
     ap.add_argument('--amp', type=int, default=1)
     ap.add_argument('--grad_ckpt', type=int, default=1)
-    ap.add_argument('--K', type=int, default=10)
-    ap.add_argument('--segments', type=int, default=8)
-    ap.add_argument('--tau', type=float, default=0.1)
     ap.add_argument('--sigma', type=float, default=1.0)
     ap.add_argument('--sigma_late', type=float, default=None)
     ap.add_argument('--reduce', default='mean_then_log')
@@ -100,6 +104,8 @@ def main():
         p.requires_grad = False
     gpt, base_args = load_init(args, dev)
     params = [p for p in gpt.parameters() if p.requires_grad]
+    if base_args.get('lora_rank', 0) > 0:
+        assert all(n.endswith('.A') or n.endswith('.B') for n, p in gpt.named_parameters() if p.requires_grad)
     print('trainable params (M):', sum(p.numel() for p in params) / 1e6, flush=True)
     opt = torch.optim.AdamW(params, lr=args.lr, betas=(0.9, 0.95), weight_decay=0.01)
 
@@ -114,7 +120,7 @@ def main():
         idx = np.sort(rng.choice(N, args.clips_per_round, replace=False))
         kept = np.zeros((len(idx), 265), np.int64)
         pal_kept, pal_first, pal_mean = [], [], []
-        for s in range(0, len(idx), args.sample_bs):
+        for s in range(0, len(idx) if args.gt_frac < 1 else 0, args.sample_bs):
             ii = idx[s:s + args.sample_bs]
             f = torch.from_numpy(np.asarray(feats_all[ii], np.float32)).transpose(1, 2).to(dev)
             toks, sc = score_candidates(gpt, vq, critic, ck['args'], f, args, dev)
@@ -143,8 +149,8 @@ def main():
             opt.zero_grad(set_to_none=True); ce.backward()
             torch.nn.utils.clip_grad_norm_(params, 1.0); opt.step()
             ce_hist.append(ce.item())
-        ev = dict(round=r, pal_kept=float(np.mean(pal_kept)), pal_first=float(np.mean(pal_first)),
-                  pal_mean=float(np.mean(pal_mean)), train_ce=float(np.mean(ce_hist)), sec=round(time.time() - t0),
+        ev = dict(round=r, pal_kept=float(np.mean(pal_kept or [np.nan])), pal_first=float(np.mean(pal_first or [np.nan])),
+                  pal_mean=float(np.mean(pal_mean or [np.nan])), train_ce=float(np.mean(ce_hist)), sec=round(time.time() - t0),
                   mps_gb=round(torch.mps.driver_allocated_memory() / 1e9, 2))
         log.append(ev); print(json.dumps(ev), flush=True)
         state = {k: v for k, v in gpt.state_dict().items()

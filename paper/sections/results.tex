@@ -1,0 +1,89 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Which metrics respond to known delays}
+\label{sec:res-metrics}
+
+A timing metric should worsen steadily as a known delay grows and should rank a clip with the right kind of sound but unrelated timing as badly aligned. We delay each of \placeholder{200} ground-truth test spectrograms by 2 to 64 mel frames (23 to 743\,ms), filling the start with the clip's quietest frame, and compare it with the original; as a second reference we compare each clip with a different clip of the same class (on FlashDot, any other clip). \Cref{tab:sensitivity} reports the results.
+
+\begin{table}[t]
+  \centering
+  \caption{Response of candidate metrics to known delays on \placeholder{FlashDot / VAS} test clips. Arrows give the direction of a better score. \placeholder{mean over clips.}}
+  \label{tab:sensitivity}
+  \small
+  \begin{tabular}{lccccc}
+    \toprule
+    Comparison & DTW $\downarrow$ & Mel L1 $\downarrow$ & Onset F1 $\uparrow$ & Env.\ corr.\ $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ \\
+    \midrule
+    Delay 0\,ms   & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 23\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 46\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 93\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 186\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 372\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Delay 743\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \midrule
+    Other clip, same class & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\placeholder{Paragraph: how DTW and mel L1 change with delay compared with onset F1, envelope correlation and $|$lag$|$; whether each ranks the unrelated clip below a large delay; which metrics are therefore primary in \cref{sec:res-flashdot,sec:res-vas}. Report H1 as measured.}
+
+\subsection{FlashDot}
+\label{sec:res-flashdot}
+
+\begin{table}[t]
+  \centering
+  \caption{FlashDot test results, \placeholder{mean $\pm$ std over 3 seeds}, training on 1600 clips. Ground truth and VQGAN reconstruction are references. Ablations change one setting of CE+PAL.}
+  \label{tab:flashdot}
+  \small
+  \begin{tabular}{lcccc}
+    \toprule
+    Model & Tone F1 $\uparrow$ & Onset F1 $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Held-out sync acc.\ $\uparrow$ \\
+    \midrule
+    Ground truth          & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    VQGAN reconstruction  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \midrule
+    CE                    & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE + PAL              & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \midrule
+    \quad one-hot target ($\sigma = 0$)           & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad asymmetric window ($\sigma_{\mathrm{late}} = \placeholder{}$) & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad one segment ($S = 1$)                   & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad soft decoding                           & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\placeholder{Paragraph: CE versus CE+PAL on all four metrics with spread over seeds (H2), relative to the VQGAN reconstruction, which bounds any code model using this decoder. Tone F1 against training-set size (200, 400, 1600) for both, as a small Figure 2.}
+
+\placeholder{Paragraph: window ablations (H4): Gaussian against the one-hot target of \citet{niu2023synchronization}, symmetric against asymmetric, per-segment against one segment, straight-through against soft decoding.}
+
+\subsection{VAS}
+\label{sec:res-vas}
+
+\begin{table}[t]
+  \centering
+  \caption{VAS test results (SpecVQGAN \texttt{vas\_valid} list), \placeholder{mean $\pm$ std over seeds}. Fine-tuned rows use LoRA with the same budget. Re-ranking draws \placeholder{N} samples from the CE fine-tuned model and keeps the one the training critic prefers.}
+  \label{tab:vas}
+  \small
+  \setlength{\tabcolsep}{4.5pt}
+  \begin{tabular}{lccccccc}
+    \toprule
+    Model & Onset F1 $\uparrow$ & Onset AP $\uparrow$ & Env.\ corr.\ $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Sync acc.\ $\uparrow$ & FID $\downarrow$ & MKL $\downarrow$ \\
+    \midrule
+    Pretrained SpecVQGAN  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE fine-tune          & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE + PAL fine-tune    & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Critic re-ranking     & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\placeholder{Paragraph: CE+PAL against CE fine-tuning on timing metrics and FID/MKL (H3); the CE-only fine-tune separates gains from fine-tuning on our split from gains due to PAL. PAL against re-ranking with the same critic (H5), including test-time cost (N samples per clip against one). Per-class results in the appendix; Figure 3: spectrograms and onset envelopes for example clips.}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\placeholder{Paragraph: whether straight-through decoding passed a useful gradient, judged on FlashDot where timing is exact; agreement between the training and held-out critics and any sign that the generator exploits the training critic; what the window ablation says about the binding-window target, at the strength the evidence supports.}

@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% Result-dependent text is marked in red and must be filled before release.
+\newcommand{\placeholder}[1]{\textcolor{red}{[#1]}}
+% A reference the text needs that is not yet in refs.bib (add it, then replace with \citep).
+\newcommand{\citeneeded}[1]{\textcolor{red}{[cite: #1]}}
+
+\newcommand{\PAL}{\mathcal{L}_{\mathrm{PAL}}}
+\newcommand{\CE}{\mathcal{L}_{\mathrm{CE}}}
+\newcommand{\sg}{\operatorname{sg}}
+
+\title{Perceptual Alignment Loss: Training Video-to-Audio Generators\\with a Temporal-Binding-Window Synchronization Objective}
+%TODO confirm author list and affiliations
+\author{Samer Aslan\\Johns Hopkins University}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Video-to-audio generators usually produce the right kind of sound for a scene, but often at the wrong moment. Their token-level likelihood objective has no notion of temporal distance: a sound placed a few frames early costs about as much as one placed a second early. We study the Perceptual Alignment Loss (PAL), a synchronization objective applied during training. A small audio-visual critic is first trained on real clips to tell the true alignment from shifted versions of the same clip, then frozen. The generator's output spectrogram, decoded from its logits through the frozen codebook decoder with a straight-through estimator, is scored by the critic, and PAL rewards the share of the critic's offset distribution that falls inside a window around zero offset, a simplified stand-in for the human audio-visual temporal binding window. We apply PAL to a SpecVQGAN-style codebook transformer. To check timing exactly we introduce FlashDot, a synthetic benchmark of flashing dots and tones with frame-exact labels, and we first measure which timing metrics respond to known delays: \placeholder{one-sentence finding}. On FlashDot, adding PAL to cross-entropy changes tone-activity F1 from \placeholder{x} to \placeholder{y} and mean absolute lag from \placeholder{x} to \placeholder{y}\,ms. On VAS, LoRA fine-tuning of the public SpecVQGAN transformer with PAL changes onset F1 from \placeholder{x} to \placeholder{y} and held-out critic synchronization accuracy from \placeholder{x} to \placeholder{y}, with FID \placeholder{x vs.\ y} and MKL \placeholder{x vs.\ y}. \placeholder{One sentence on the window ablation and critic re-ranking.} Code and FlashDot: \placeholder{URL}.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/method}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/limitations}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

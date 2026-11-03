@@ -1,0 +1,50 @@
+\section{Relation to an earlier draft}
+\label{app:earlier}
+
+An unpublished 2023 draft of this work reported results for an earlier implementation of the alignment loss. In that implementation the loss could not influence the generator: the predicted spectrogram was decoded from the argmax of the transformer's logits inside a function that ran without gradient tracking, so no gradient reached the transformer, and the only parameters the loss touched, those of its two feature extractors, were not in the optimizer. All numbers in that draft are superseded by this paper. The experiments reported here were rerun with a new implementation.
+
+\section{Hyperparameters}
+\label{app:hparams}
+
+\begin{table}[h]
+  \centering
+  \caption{Hyperparameters. Values are code defaults, except the FlashDot GPT size (set per run) and red entries (not yet fixed).}
+  \label{tab:hparams}
+  \small
+  \begin{tabular}{llc}
+    \toprule
+    Component & Setting & Value \\
+    \midrule
+    Critic & encoder blocks / kernel / channels & 2 / 5 / 256 \\
+           & embedding dimension, normalization & 128, L2 per frame \\
+           & group norm groups, mel pooling & 8, $\times 4$ \\
+    \midrule
+    Stage 1 & $K$, $S$, $\tau$, $\sigma$ & 10, 8, 0.1, 0 \\
+            & reduction & $-\frac{1}{S}\sum_s \log W_s$ \\
+            & probability of ground-truth audio & 0.3 \\
+            & optimizer & AdamW, lr $10^{-3}$, wd $10^{-4}$ \\
+            & schedule, steps, batch & one-cycle (5\% warm-up), 3000, 32 \\
+            & selection & lowest dev loss, every 250 steps \\
+    \midrule
+    Stage 2 & $K$, $S$, $\tau$, $\sigma$ & 8, 4, 0.1, 1 \\
+            & $\sigma_{\mathrm{late}}$ (asymmetric runs) & \placeholder{} \\
+            & reduction & $-\log \frac{1}{S}\sum_s W_s$ \\
+            & decoding & straight-through \\
+            & window columns $c$, margin $m$ & 12, 1 \\
+            & examples with PAL per batch & 4 of 16 \\
+            & PAL weight $\beta$ & \placeholder{} \\
+            & optimizer & AdamW, lr $3 \times 10^{-4}$, $\beta = (0.9, 0.95)$, wd 0.01 \\
+            & schedule & 200 warm-up steps, cosine decay \\
+            & gradient clipping & 1.0 \\
+            & steps (FlashDot / VAS) & \placeholder{} / \placeholder{} \\
+    \midrule
+    FlashDot GPT & layers / width / heads & 6 / 384 / \placeholder{} \\
+    VAS LoRA & rank $r$, $\alpha$ & \placeholder{}, 16 \\
+    \midrule
+    Sampling & top-$k$, temperature & 100, 1.0 \\
+             & re-ranking samples $N$ & \placeholder{} \\
+    \midrule
+    Seeds & FlashDot / VAS & \placeholder{3} / \placeholder{} \\
+    \bottomrule
+  \end{tabular}
+\end{table}

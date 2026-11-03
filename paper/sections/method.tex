@@ -1,0 +1,64 @@
+\section{Method}
+\label{sec:method}
+
+\begin{figure}[t]
+  \centering
+  \fbox{\parbox[c][3.2cm][c]{0.9\linewidth}{\centering\placeholder{Figure 1: pipeline}}}
+  \caption{Training pipeline. Stage 1: the critic embeds a real spectrogram (ground truth or its VQGAN reconstruction) and the clip's visual features and is trained so that zero offset wins the softmax over offsets. Stage 2: the critic and VQGAN decoder are frozen; a window of the transformer's logits is decoded with a straight-through estimator, scored by the critic, and PAL is added to the cross-entropy loss.}
+  \label{fig:pipeline}
+\end{figure}
+
+\subsection{Base generator: SpecVQGAN}
+\label{sec:specvqgan}
+
+We follow the data geometry and models of SpecVQGAN \citep{iashin2021taming} (\cref{fig:pipeline}). Audio is an 80-bin log-mel spectrogram (22.05\,kHz, hop 256, 86.1 frames per second) of 848 frames, about 9.8\,s, with values in $[0,1]$. A VQGAN \citep{esser2021taming} encodes it into a $5 \times 53$ grid of codes from a codebook $E \in \mathbb{R}^{|V| \times 256}$, $|V| = 128$; one code column covers 16 mel frames. The transformer reads codes in column-major order (the five codes of a column, then the next column), so a sequence has $N = 265$ tokens. It is a GPT whose input starts with the clip's 212 visual feature frames (2048-dimensional, about 21.5 per second, so four per code column), projected by a $1 \times 1$ convolution and followed by the token embeddings. It is trained by teacher-forced cross-entropy, $\CE = -\frac{1}{N}\sum_{j} \log q_j(z_j)$ with $q_j = \operatorname{softmax}(\ell_j)$, where $z_j$ is the ground-truth code and $\ell_j \in \mathbb{R}^{|V|}$ the logits at position $j$. At test time codes are sampled autoregressively (top-$k$ with $k=100$, temperature 1) and decoded by the VQGAN decoder.
+
+\subsection{Synchronization critic}
+\label{sec:critic}
+
+The critic has an audio encoder and a video encoder of the same structure: two blocks of a temporal one-dimensional convolution (kernel 5, 256 channels), group normalization (8 groups) and GELU, then a $1 \times 1$ convolution to 128 dimensions and L2 normalization at every frame. The audio input is the spectrogram mapped to $[-1,1]$ and average-pooled by four along time, which brings it to the 212-frame rate of the visual features. The design follows the local feature extractors of \citet{niu2023synchronization}, with group normalization in place of batch normalization and kernel 5 in both blocks (theirs uses 3 and 1). For a clip the critic gives unit-norm embeddings $a_1, \dots, a_T$ and $v_1, \dots, v_T$.
+
+\subsection{Perceptual Alignment Loss}
+\label{sec:pal}
+
+For offsets $o \in \{-K, \dots, K\}$ (in video frames), PAL compares audio frame $i$ with video frame $i + o$, so a negative offset means the audio event comes after the visual one (audio late). Only the central frames $i \in [K, T-K)$ are used, so every offset compares the same number of real frames and none falls in the padding. The central region, of length $L = S \lfloor (T - 2K)/S \rfloor$, is split into $S$ equal consecutive segments $I_1, \dots, I_S$. For segment $s$,
+\begin{equation}
+  C_{s,o} = \frac{1}{|I_s|} \sum_{i \in I_s} \langle a_i, v_{i+o} \rangle, \qquad
+  p_{s,o} = \frac{\exp(C_{s,o}/\tau)}{\sum_{o'=-K}^{K} \exp(C_{s,o'}/\tau)} .
+  \label{eq:xcorr}
+\end{equation}
+The target is a window over offsets with weight one at zero,
+\begin{equation}
+  w_o = \exp\!\left(-\frac{o^2}{2\sigma_o^2}\right), \quad w_0 = 1, \quad
+  \sigma_o = \begin{cases} \sigma_{\mathrm{late}} & o < 0 \ \text{(audio late)},\\ \sigma & o \geq 0 , \end{cases}
+  \qquad W_s = \sum_{o=-K}^{K} w_o \, p_{s,o} \in (0, 1] .
+  \label{eq:window}
+\end{equation}
+The symmetric window has $\sigma_{\mathrm{late}} = \sigma$; the asymmetric option sets $\sigma_{\mathrm{late}} > \sigma$, widening the window on the audio-late side in the direction of the human asymmetry. With $\sigma = 0$ the window is the indicator of zero offset. PAL averages the windowed mass over segments and takes the negative logarithm:
+\begin{equation}
+  \PAL = -\log\!\left(\frac{1}{S}\sum_{s=1}^{S} W_s\right).
+  \label{eq:pal}
+\end{equation}
+With $\sigma = 0$ and $S = 1$, \cref{eq:pal} is $-\log p_{1,0}$, the self-synchronization loss of \citet{niu2023synchronization}. The window lets the generator put mass one or two frames from zero at a small cost, while mass at large offsets earns nothing. Segmentation makes the critic judge alignment over short stretches, so one well-aligned stretch cannot hide a badly aligned one behind a single clip-level score. The implementation also offers the reduction $-\frac{1}{S}\sum_s \log W_s$, which penalizes each badly aligned segment separately; stage 1 uses it.
+
+\subsection{Stage 1: training the critic}
+\label{sec:stage1}
+
+The critic is trained on real clips with $\sigma = 0$, $K = 10$, $S = 8$, $\tau = 0.1$ and the per-segment log reduction, so the negatives are the other offsets of the same clip \citep{owens2018audio,chung2019perfect} and the objective is a cross-entropy over offsets with zero offset as the target in every segment. The audio input is the VQGAN reconstruction of the ground truth, since every spectrogram the critic sees in stage 2 comes out of the same decoder; with probability 0.3 per example it is the ground truth instead. The checkpoint with the lowest development loss is kept (\cref{tab:hparams}).
+
+\subsection{Stage 2: training the generator with PAL}
+\label{sec:stage2}
+
+The critic and the VQGAN decoder are frozen; only the transformer, or its low-rank adapters (\cref{sec:models}), is trained. The critic needs a spectrogram, while the transformer outputs a distribution over codes. With $q_j = \operatorname{softmax}(\ell_j)$ from the teacher-forced cross-entropy pass, the decoded code vector is
+\begin{equation}
+  \hat e_j = \Bigl(\operatorname{onehot}\bigl(\arg\max_k q_{j,k}\bigr) + q_j - \sg(q_j)\Bigr)^{\!\top} E ,
+  \label{eq:st}
+\end{equation}
+where $\sg$ stops the gradient \citeneeded{Bengio et al.\ 2013, straight-through estimator}. The forward value is the codebook entry of the most likely code, so the decoder only receives real codebook entries, and the backward pass uses the gradient of the expected code vector $q_j^{\top} E$. The code vectors are arranged back into the code grid and decoded by the frozen decoder into a spectrogram in $[-1, 1]$ that goes to the critic directly. (Soft decoding, which also uses $q_j^{\top} E$ in the forward pass, is an ablation.) Because the logits are teacher-forced, PAL scores the per-position most likely codes given the ground-truth prefix rather than a free-running sample.
+
+Decoding all 53 columns and backpropagating through the decoder is expensive, so PAL uses a random window. At each step a start column $c_0$ is drawn uniformly, $c + 2m$ columns are decoded with $c = 12$ and margin $m = 1$, and the $16m$ mel frames at each end are discarded, since near the window's edges the decoder lacks the neighboring columns of a full decode. The remaining 192 mel frames are pooled by the critic to 48 frames and compared with the 48 visual feature frames starting at frame $4(c_0 + m)$. Stage 2 uses $K = 8$, $S = 4$, $\tau = 0.1$ and $\sigma = 1$: the central region of 32 frames gives four segments of about 0.37\,s, and offsets reach about $\pm 0.37$\,s. The decoder and critic run in half precision, with activation checkpointing in the decoder. PAL is computed on the first $B_{\mathrm{PAL}} = 4$ examples of each batch of 16, and the loss is
+\begin{equation}
+  \mathcal{L} = \CE + \beta \, \PAL ,
+  \label{eq:total}
+\end{equation}
+with cross-entropy over the full batch and $\beta = \placeholder{value}$ chosen on the development split.

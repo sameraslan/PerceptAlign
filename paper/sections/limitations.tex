@@ -1,0 +1,10 @@
+\section{Limitations}
+\label{sec:limitations}
+
+\begin{itemize}
+  \item \textbf{Base model.} SpecVQGAN is far from current V2A systems such as MMAudio \citep{cheng2025mmaudio}. Our results show whether PAL changes a codebook transformer's timing; they do not show that it would help a current flow or diffusion model, and we make no state-of-the-art comparison.
+  \item \textbf{Compute.} All training ran on one laptop GPU, so on VAS we fine-tune low-rank adapters rather than the full transformer, compute PAL on a 12-column window of four examples per batch, and train for \placeholder{steps}. Larger budgets could change the size of the effect in either direction.
+  \item \textbf{Feature-based critic and evaluation.} The critic sees precomputed visual features at about 21.5 frames per second, so one offset step is about 46\,ms and finer errors are invisible to it. The held-out critic uses the same features and model family, so it is not fully independent of the training critic. \placeholder{Add a Synchformer-based score \citep{iashin2024synchformer} if computed, or say it was not.}
+  \item \textbf{Teacher-forced loss.} PAL scores the most likely codes under teacher forcing, which can differ from free-running samples.
+  \item \textbf{Binding window.} The Gaussian window, symmetric or wider on the audio-late side, simplifies a human window whose width and shape vary with stimulus, task and observer \citep{stevenson2012individual,takeshima2021visual}; it is not fitted to human data.
+\end{itemize}

@@ -1,0 +1,20 @@
+\section{Introduction}
+\label{sec:intro}
+
+People can predict from a silent video both what a hammer on a nail sounds like and when each impact happens. Video-to-audio (V2A) generation asks a model to do the same: produce a soundtrack that fits the frames of a silent clip, for uses such as Foley for film and sound for generated video. Codebook-transformer models \citep{iashin2021taming} and their successors usually get the kind of sound right. Timing is harder: a hammer clip can receive convincing hammer sounds whose impacts land between the visible strikes.
+
+Part of the reason is the training objective. A codebook transformer is trained with cross-entropy over discrete spectrogram tokens, which has no notion of temporal distance: a token that would be correct two frames later scores the same as one that is wrong everywhere, so an onset placed slightly early costs about as much as one placed a second early.
+
+Human perception handles timing with some tolerance. Light and sound from one event arrive at slightly different times, and observers still bind them into one event when the asynchrony falls inside the temporal binding window \citep{wallace2014construct}. The window is wider when audio lags than when it leads \citep{dixon1980detection,vanwassenhove2007temporal,vroomen2010perception}, varies between people \citep{stevenson2012individual}, and shifts after exposure to a constant lag \citep{fujisaki2004recalibration}. We take one design principle from this literature: a timing objective should accept small offsets around zero and penalize large ones, rather than treating every non-zero offset as equally wrong. Calling the loss ``perceptual'' is an analogy; we do not model the perceptual system.
+
+Following the frozen sync-expert loss of Wav2Lip \citep{prajwal2020wav2lip} and the offset-distribution loss of \citet{niu2023synchronization}, we apply a frozen, contrastively pretrained synchronization critic as a training loss for open-domain video-to-audio generation, and make it differentiable for a discrete-token generator by decoding the generator's logits through the frozen codebook decoder with a straight-through estimator. We call the loss the Perceptual Alignment Loss (PAL). For each short segment of a clip, the critic compares audio and video embeddings at every offset in a small range and turns the comparisons into a distribution over offsets; PAL rewards the mass that falls inside a window around zero. The loss form is the self-synchronization loss of \citet{niu2023synchronization}. The changes are a soft window over near-zero offsets in place of their one-hot target, an optional asymmetric window, and computation per segment, so that a clip is aligned locally rather than on average.
+
+Measuring timing also needs care: a metric that compares a generated spectrogram with the ground truth can be dominated by spectral content and barely move when the timing is off. We therefore test candidate metrics against known delays, and we build a benchmark where the correct timing is known exactly.
+
+\paragraph{Contributions.}
+\begin{itemize}
+  \item \textbf{PAL}, a synchronization loss for codebook-based V2A generators: a binding-window target over offsets, computed per segment, applied through a frozen critic, with straight-through codebook decoding so that the loss reaches the transformer's logits (\cref{sec:method}).
+  \item \textbf{FlashDot}, a synthetic benchmark of flashing dots and synchronous tones with frame-exact timing labels, in the SpecVQGAN data format (\cref{sec:data}).
+  \item \textbf{A metric sensitivity check} measuring how candidate timing metrics respond to known delays (\cref{sec:res-metrics}).
+  \item \textbf{Experiments} on FlashDot, training from scratch, and on VAS \citep{chen2020regnet}, fine-tuning the public SpecVQGAN transformer, with window ablations and a comparison against re-ranking samples with the same critic (\cref{sec:res-flashdot,sec:res-vas}).
+\end{itemize}

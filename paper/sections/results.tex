@@ -44,7 +44,7 @@ Used to choose among the generator's own samples, the same critic helps. Keeping
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/flashdot_samples.pdf}
-  \caption{One FlashDot development clip (the clip with the median $|$lag$|$ gain from best-of-8 re-ranking). The bottom row marks when the tone is on. The PAL-trained model (teacher-forced PAL) adds tones that are not in the video; the corruption-trained CE model misses some tones; keeping the best of eight of its samples by PAL lines the onsets up more closely with the ground truth.}
+  \caption{One FlashDot development clip (the clip with the median $|$lag$|$ gain from best-of-8 re-ranking). The bottom row marks when the tone is on. The model trained with PAL as a loss (teacher-forced) adds tones that are not in the video; the corruption-trained CE model misses some tones; keeping the best of eight of its samples by PAL matches more of the tones (tone F1 0.57 on this clip, against 0.33 for the single sample), though its lag is still large (790\,ms against 860\,ms).}
   \label{fig:fd-samples}
 \end{figure} \placeholder{Paragraph: FlashDot test results for best-of-8 and self-training against random selection.}
 

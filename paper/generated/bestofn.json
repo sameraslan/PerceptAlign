@@ -1,0 +1,72 @@
+{
+ "flashdot": {
+  "sources": {},
+  "n_generators": 0,
+  "n_clips": [],
+  "curves": {
+   "s1": {
+    "n": [
+     1,
+     2,
+     4,
+     8
+    ],
+    "selection": [
+     "first",
+     "best2_s1",
+     "best4_s1",
+     "best8_s1"
+    ]
+   },
+   "s0": {
+    "n": [
+     1,
+     2,
+     4,
+     8
+    ],
+    "selection": [
+     "first",
+     "best2_s0",
+     "best4_s0",
+     "best8_s0"
+    ]
+   }
+  }
+ },
+ "vas": {
+  "sources": {},
+  "n_generators": 0,
+  "n_clips": [],
+  "curves": {
+   "s1": {
+    "n": [
+     1,
+     2,
+     4,
+     8
+    ],
+    "selection": [
+     "first",
+     "best2_s1",
+     "best4_s1",
+     "best8_s1"
+    ]
+   },
+   "s0": {
+    "n": [
+     1,
+     2,
+     4,
+     8
+    ],
+    "selection": [
+     "first",
+     "best2_s0",
+     "best4_s0",
+     "best8_s0"
+    ]
+   }
+  }
+ }
+}

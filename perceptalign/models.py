@@ -111,7 +111,12 @@ class CausalSelfAttention(nn.Module):
             y = F.scaled_dot_product_attention(q, k, v)
         else:
             assert k.shape[2] == T, 'multi-token steps are only supported without a prefix'
-            y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
+            if torch.is_grad_enabled() and q.device.type == 'mps' and (q.dtype == torch.float16 or torch.is_autocast_enabled('mps')):
+                # the fp16 SDPA backward on MPS (torch 2.5.1) returns NaN gradients; train attention in fp32
+                with torch.autocast('mps', enabled=False):
+                    y = F.scaled_dot_product_attention(q.float(), k.float(), v.float(), is_causal=True).to(q.dtype)
+            else:
+                y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         return self.proj(y.transpose(1, 2).reshape(B, T, C))
 
 

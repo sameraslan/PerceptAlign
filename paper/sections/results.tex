@@ -4,86 +4,93 @@
 \subsection{Which metrics respond to known delays}
 \label{sec:res-metrics}
 
-A timing metric should worsen steadily as a known delay grows and should rank a clip with the right kind of sound but unrelated timing as badly aligned. We delay each of \placeholder{200} ground-truth test spectrograms by 2 to 64 mel frames (23 to 743\,ms), filling the start with the clip's quietest frame, and compare it with the original; as a second reference we compare each clip with a different clip of the same class (on FlashDot, any other clip). \Cref{tab:sensitivity} reports the results.
+A timing metric should worsen steadily as a known delay grows and should rank a clip with the right kind of sound but unrelated timing as badly aligned. We delay each of 200 FlashDot development spectrograms by 2 to 64 mel frames (23 to 743\,ms), filling the start with the clip's quietest frame, and compare it with the original; as a second reference we compare each clip with a different clip (\cref{fig:sensitivity}; values in \cref{tab:sensitivity}).
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/metric_sensitivity.pdf}
+  \caption{Metric response to injected delays on FlashDot (development, 200 clips). Dashed lines: an unrelated clip. Only $|$lag$|$ grows in proportion to the delay; DTW and mel L1 rank every delay as closer to the truth than an unrelated clip.}
+  \label{fig:sensitivity}
+\end{figure}
+
+The envelope lag recovers the injected delay exactly. Onset F1 is flat up to 93\,ms, inside its tolerance, and drops to the level of an unrelated clip (about 0.14) or below from 186\,ms. Envelope correlation falls from 0.75 at 23\,ms to about zero by 93\,ms, so it cannot tell 100\,ms from a second. DTW grows with delay, from 69 at 23\,ms to 1968 at 743\,ms, but an unrelated clip scores 10582: a large delay looks five times closer to the truth than a clip with different content, so DTW mostly measures content. Mel L1 jumps at the smallest delay and then barely separates a 743\,ms delay (0.052) from an unrelated clip (0.054). We therefore use $|$lag$|$, within-one-frame, onset F1 and, on FlashDot, tone F1 as timing metrics, and leave DTW out.
+
+\subsection{PAL as a training loss does not improve timing}
+\label{sec:res-loss}
 
 \begin{table}[t]
   \centering
-  \caption{Response of candidate metrics to known delays on \placeholder{FlashDot / VAS} test clips. Arrows give the direction of a better score. \placeholder{mean over clips.}}
-  \label{tab:sensitivity}
-  \small
-  \begin{tabular}{lccccc}
-    \toprule
-    Comparison & DTW $\downarrow$ & Mel L1 $\downarrow$ & Onset F1 $\uparrow$ & Env.\ corr.\ $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ \\
-    \midrule
-    Delay 0\,ms   & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 23\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 46\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 93\,ms  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 186\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 372\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Delay 743\,ms & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \midrule
-    Other clip, same class & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\placeholder{Paragraph: how DTW and mel L1 change with delay compared with onset F1, envelope correlation and $|$lag$|$; whether each ranks the unrelated clip below a large delay; which metrics are therefore primary in \cref{sec:res-flashdot,sec:res-vas}. Report H1 as measured.}
-
-\subsection{FlashDot}
-\label{sec:res-flashdot}
-
-\begin{table}[t]
-  \centering
-  \caption{FlashDot test results, \placeholder{mean $\pm$ std over 3 seeds}, training on 1600 clips. Ground truth and VQGAN reconstruction are references. Ablations change one setting of CE+PAL.}
+  \caption{FlashDot. Top: references. Middle: PAL as a loss and the CE baselines, trained from scratch (development split, seed 0, 2000 steps unless stated). Bottom: PAL as a reward. Sync acc.\ is the held-out critic at tolerance 1 (chance $\approx 0.14$).}
   \label{tab:flashdot}
   \small
-  \begin{tabular}{lcccc}
+  \begin{tabular}{llccc}
     \toprule
-    Model & Tone F1 $\uparrow$ & Onset F1 $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Held-out sync acc.\ $\uparrow$ \\
+    Model & Split & Tone F1 $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Sync acc.\ $\uparrow$ \\
     \midrule
-    Ground truth          & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    VQGAN reconstruction  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    VQGAN reconstruction                       & dev  & 0.970 & \placeholder{2.7} & 1.000 \\
     \midrule
-    CE                    & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    CE + PAL              & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE (teacher forcing)                       & dev  & 0.414 & 423 & 0.165 \\
+    CE, corrupted prefix ($p_{\mathrm{keep}} = 0.5$) & dev  & 0.499 & 306 & 0.245 \\
+    CE + PAL, teacher-forced (3000 steps)      & dev  & 0.297 & 474 & 0.090 \\
+    CE + PAL, half-corrupted PAL prefix        & dev  & 0.228 & 484 & 0.120 \\
+    CE + PAL, fully corrupted PAL prefix       & dev  & 0.279 & 491 & 0.125 \\
     \midrule
-    \quad one-hot target ($\sigma = 0$)           & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad asymmetric window ($\sigma_{\mathrm{late}} = \placeholder{}$) & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad one segment ($S = 1$)                   & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad soft decoding                           & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    CE, corrupted prefix, best of 8            & dev  & 0.535 & \placeholder{228} & 0.645 \\
+    \midrule
+    CE, corrupted prefix                       & test & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad best of 8                            & test & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad self-training, random selection      & test & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad self-training, PAL selection         & test & \placeholder{} & \placeholder{} & \placeholder{} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\placeholder{Paragraph: CE versus CE+PAL on all four metrics with spread over seeds (H2), relative to the VQGAN reconstruction, which bounds any code model using this decoder. Tone F1 against training-set size (200, 400, 1600) for both, as a small Figure 2.}
+On FlashDot, every way of adding PAL to the loss lowers timing quality (\cref{tab:flashdot}, middle). With teacher-forced logits, tone F1 falls from 0.414 to 0.297 and held-out sync accuracy from 0.165 to 0.090, below chance, even with 1000 more training steps. Computing PAL from a half or fully corrupted prefix, so that the video is the only source of timing, does no better (tone F1 0.228 and 0.279). Corrupting the prefix of the cross-entropy pass alone, with no critic, helps instead: tone F1 0.499, $|$lag$|$ 306\,ms. The two diagnostics of \cref{sec:diagnostics} show why the loss fails.
 
-\placeholder{Paragraph: window ablations (H4): Gaussian against the one-hot target of \citet{niu2023synchronization}, symmetric against asymmetric, per-segment against one segment, straight-through against soft decoding.}
+\paragraph{Exposure bias.}
+The CE model does use the video under teacher forcing: development cross-entropy is 1.56 with each clip's own visual features and 1.95 with another clip's. With a fully corrupted prefix it is 4.38 against 4.57, close to the uniform level of 4.85, so the video alone tells the model little about which code comes next. Teacher-forced predictions therefore inherit their timing from the aligned prefix, and they look aligned to the critic whatever the model does with the video, while the model's free-running samples are close to chance timing (held-out sync accuracy 0.165 against a chance level of about 0.14). A PAL gradient on teacher-forced logits rewards copying the prefix, which the model already does.
 
-\subsection{VAS}
-\label{sec:res-vas}
+\paragraph{The critic can be exploited.}
+Corrupting the PAL prefix removes the shortcut through the prefix but opens another one. In the free-logit attack (\cref{fig:attack}), optimizing logits directly against the mel critic reaches a PAL of 0.98, about that of the ground-truth codes (0.95; random codes 2.12). The decoded spectrograms are broadband texture with tone F1 0.28, barely above random codes (0.20) and far from the ground truth (0.98). Critics that see only 8, 4 or 1 band energies are fooled the same way. Coarser critics do align energy changes better at the optimum, with $|$lag$|$ of 151\,ms (mel), 147\,ms (8 bands), 48\,ms (4 bands) and 15\,ms (1 band) against 644\,ms for random codes, but none of them produces the tone: tone F1 at the optimum is 0.28, 0.28, 0.11 and 0.05. A critic trained only on real audio has never seen spectrograms like these, and it scores them as aligned.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/critic_attack.pdf}
+  \caption{Free-logit attack on four FlashDot critics (eight development clips). Optimizing logits against PAL (orange) reaches the PAL of the ground-truth codes (blue) for every critic, while tone F1 stays near or below that of random logits (grey). Coarser critics bring the envelope lag down, but none recovers the tone.}
+  \label{fig:attack}
+\end{figure}
+
+\subsection{PAL as a reward on samples}
+\label{sec:res-reward}
+
+Used to choose among the generator's own samples, the same critic helps. Keeping the best of eight free-running samples from the corruption-trained CE model (candidates scored with $\sigma = 0$) raises tone F1 from 0.499 to 0.535, the share of clips within one video frame from \placeholder{0.17} to 0.48, and held-out sync accuracy from 0.245 to 0.645 on the FlashDot development split (\cref{tab:flashdot}). The tone F1 gain is modest; the larger held-out gain partly reflects that the two critics share features and model family. \placeholder{Paragraph: FlashDot test results for best-of-8 and self-training against random selection.}
 
 \begin{table}[t]
   \centering
-  \caption{VAS test results (SpecVQGAN \texttt{vas\_valid} list), \placeholder{mean $\pm$ std over seeds}. Fine-tuned rows use LoRA with the same budget. Re-ranking draws \placeholder{N} samples from the CE fine-tuned model and keeps the one the training critic prefers.}
+  \caption{VAS test results (768 clips of the SpecVQGAN \texttt{vas\_valid} list), one sample per clip. Sync acc.\ is the held-out critic at tolerance 0 / 1 (chance $\approx 0.05$ / $0.14$). On.: onset; Env.: envelope correlation; $|$Lag$|$ in ms; 1 fr.: share of clips with $|$lag$|$ within one video frame. Fine-tuned rows train LoRA adapters with the same budget.}
   \label{tab:vas}
   \small
-  \setlength{\tabcolsep}{4.5pt}
-  \begin{tabular}{lccccccc}
+  \setlength{\tabcolsep}{3.2pt}
+  \begin{tabular}{lccccccccc}
     \toprule
-    Model & Onset F1 $\uparrow$ & Onset AP $\uparrow$ & Env.\ corr.\ $\uparrow$ & $|$Lag$|$ (ms) $\downarrow$ & Sync acc.\ $\uparrow$ & FID $\downarrow$ & MKL $\downarrow$ \\
+    Model & On.\ F1 $\uparrow$ & On.\ AP $\uparrow$ & Env.\ $\uparrow$ & $|$Lag$|$ $\downarrow$ & 1 fr.\ $\uparrow$ & Sync acc.\ $\uparrow$ & FID $\downarrow$ & MKL $\downarrow$ \\
     \midrule
-    Pretrained SpecVQGAN  & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    CE fine-tune          & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    CE + PAL fine-tune    & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Critic re-ranking     & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Ground truth          & -- & -- & -- & -- & -- & 0.285 / 0.536 & -- & -- \\
+    VQGAN reconstruction  & 0.813 & 0.778 & 0.918 & 0.2 & 100\% & 0.277 / 0.518 & 6.0 & 1.03 \\
+    \midrule
+    Pretrained SpecVQGAN  & 0.368 & 0.206 & 0.003 & 502 & 5.6\% & 0.061 / 0.167 & 27.8 & 5.81 \\
+    \quad best of \placeholder{N} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad GT-only fine-tune & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad self-train, random & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    \quad self-train, PAL & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\placeholder{Paragraph: CE+PAL against CE fine-tuning on timing metrics and FID/MKL (H3); the CE-only fine-tune separates gains from fine-tuning on our split from gains due to PAL. PAL against re-ranking with the same critic (H5), including test-time cost (N samples per clip against one). Per-class results in the appendix; Figure 3: spectrograms and onset envelopes for example clips.}
+On VAS (\cref{tab:vas}), the VQGAN reconstruction reaches FID 6.0 and MKL 1.03, matching the published codebook numbers (6.0 and 1.0), which checks our port of the evaluation. The pretrained SpecVQGAN transformer (top-$k$ 100, one sample per clip) gives FID 27.8 and MKL 5.81 (published 25.4 and 5.9). Its timing is close to chance: envelope correlation 0.003, $|$lag$|$ 502\,ms, 5.6\% of clips within one frame, and held-out sync accuracy 0.061 / 0.167 against chance levels of about 0.05 / 0.14. The ground truth itself reaches only 0.285 / 0.536 under the held-out critic, which bounds what that metric can show. \placeholder{Paragraph: self-training with PAL selection against random selection and ground-truth-only fine-tuning on timing and FID/MKL; best-of-$N$ and its test-time cost; per-class results in the appendix.}
 
 \section{Discussion}
 \label{sec:discussion}
 
-\placeholder{Paragraph: whether straight-through decoding passed a useful gradient, judged on FlashDot where timing is exact; agreement between the training and held-out critics and any sign that the generator exploits the training critic; what the window ablation says about the binding-window target, at the strength the evidence supports.}
+The same frozen critic hurts timing as a loss and helps as a reward, and the two diagnostics locate the difference. A differentiable loss scores whatever the gradient path produces: under teacher forcing that is a prediction already aligned by its prefix, and with the prefix removed it is a point the generator can move toward freely, including spectrograms outside anything the critic was trained on. A reward on free-running samples scores only what the generator actually produces, so the critic works inside the region where its ranking means something, and the generator learns from real audio-like samples through ordinary cross-entropy. This matches what is known about optimizing learned rewards \citep{gao2023scaling}: the less freely the optimizer can move against the reward model, the more the reward keeps its meaning. For discrete-token V2A models, we recommend running the wrong-video probe and the free-logit attack before training against any critic, and using the critic to select samples. \placeholder{One or two sentences on the binding-window target and the asymmetric window, at the strength the self-training results support.}

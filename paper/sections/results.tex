@@ -39,7 +39,14 @@ Corrupting the PAL prefix removes the shortcut through the prefix but opens anot
 \subsection{PAL as a reward on samples}
 \label{sec:res-reward}
 
-Used to choose among the generator's own samples, the same critic helps. Keeping the best of eight free-running samples from the corruption-trained CE model (candidates scored with $\sigma = 0$) raises tone F1 from 0.499 to 0.535, the share of clips within one video frame from 0.17 to 0.48, and held-out sync accuracy from 0.245 to 0.645 on the FlashDot development split (\cref{tab:flashdot}). The tone F1 gain is modest; the larger held-out gain partly reflects that the two critics share features and model family. \placeholder{Paragraph: FlashDot test results for best-of-8 and self-training against random selection.}
+Used to choose among the generator's own samples, the same critic helps. Keeping the best of eight free-running samples from the corruption-trained CE model (candidates scored with $\sigma = 0$) raises tone F1 from 0.499 to 0.535, the share of clips within one video frame from 0.17 to 0.48, and held-out sync accuracy from 0.245 to 0.645 on the FlashDot development split (\cref{tab:flashdot}). The tone F1 gain is modest; the larger held-out gain partly reflects that the two critics share features and model family. \Cref{fig:fd-samples} shows one development clip: the clip whose $|$lag$|$ gain from re-ranking is the median over clips, so it shows a typical case rather than the best one.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/flashdot_samples.pdf}
+  \caption{One FlashDot development clip (the clip with the median $|$lag$|$ gain from best-of-8 re-ranking). The bottom row marks when the tone is on. The PAL-trained model (teacher-forced PAL) adds tones that are not in the video; the corruption-trained CE model misses some tones; keeping the best of eight of its samples by PAL lines the onsets up more closely with the ground truth.}
+  \label{fig:fd-samples}
+\end{figure} \placeholder{Paragraph: FlashDot test results for best-of-8 and self-training against random selection.}
 
 \input{generated/tab_vas}
 

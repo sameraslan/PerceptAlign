@@ -168,16 +168,37 @@ def flashdot_example(idx=0):
                 FD / 'dev_mel.npy', act_path=FD / 'dev_act.npy')
 
 
-def flashdot_samples(entries=None, idx=0, name='flashdot_samples'):
-    """entries: list of (label, path to [N, 80, 848] samples .npy) on the FlashDot dev split."""
-    entries = entries or [('ground truth (test)', FD / 'dev_mel.npy')]
+def _median_gain_clip(single_perclip, best_perclip, key='abs_lag_ms'):
+    """Clip whose per-clip |lag| gain from re-ranking is the median gain: a typical case, not the best one."""
+    a, b = np.load(single_perclip)[key], np.load(best_perclip)[key]
+    gain = a - b
+    ok = np.flatnonzero(~np.isnan(gain))
+    order = ok[np.argsort(gain[ok], kind='stable')]
+    return int(order[len(order) // 2])
+
+
+def flashdot_samples(name='flashdot_samples'):
+    """FlashDot dev: CE + PAL (teacher-forced), corruption-trained CE, and its best of 8."""
+    ce = WORK / 'runs' / 'fd2_ce_pk05'
+    idx = _median_gain_clip(ce / 'samples_dev_s0_perclip.npz', ce / 'samples_dev_s0_rr8_perclip.npz')
+    entries = [('CE + PAL, teacher-forced', WORK / 'runs' / 'fd_pal_s0' / 'samples_dev_s0.npy'),
+               ('CE, corrupted prefix: one sample', ce / 'samples_dev_s0.npy'),
+               ('CE, corrupted prefix: best of 8 by PAL', ce / 'samples_dev_s0_rr8.npy')]
     _spec_stack(entries, idx, name, FD / 'dev_mel.npy', act_path=FD / 'dev_act.npy')
+    return idx
 
 
-def vas_samples(entries=None, idx=0, name='vas_samples'):
-    """entries: list of (label, path to [N, 80, 848] samples .npy) on the VAS dev split."""
-    entries = entries or [('ground truth (test)', VAS / 'dev_mel.npy')]
-    _spec_stack(entries, idx, name, VAS / 'dev_mel.npy')
+def vas_samples(name='vas_samples'):
+    """VAS test: pretrained SpecVQGAN, its best of 4, and PAL self-training."""
+    runs = WORK / 'runs'
+    single = runs / 'vas_base' / 'samples_test_s0_b940f7'
+    best = runs / 'vas_base' / 'samples_test_s0_rr4_735d74'
+    idx = _median_gain_clip(f'{single}_perclip.npz', f'{best}_perclip.npz')
+    entries = [('pretrained SpecVQGAN: one sample', f'{single}.npy'),
+               ('pretrained SpecVQGAN: best of 4 by PAL', f'{best}.npy'),
+               ('self-training, PAL selection', runs / 'vas_st_pal' / 'samples_test_s0_6cf256.npy')]
+    _spec_stack(entries, idx, name, VAS / 'test_mel.npy')
+    return idx
 
 
 FIGURES = dict(metric_sensitivity=metric_sensitivity, critic_attack=critic_attack,

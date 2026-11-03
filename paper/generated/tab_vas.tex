@@ -2,7 +2,7 @@
 \providecommand{\stackstd}[2]{\begin{tabular}[t]{@{}c@{}}#1\\[-2pt]{\scriptsize #2}\end{tabular}}
 \begin{table}[t]
   \centering
-  \caption{VAS test results (768 clips of the SpecVQGAN \texttt{vas\_valid} list), one sample per clip unless stated. Sync acc.\ is the held-out critic at tolerance 0 / 1 (chance $\approx 0.05$ / $0.14$). On.: onset; Env.: envelope correlation; $|$Lag$|$ in ms; 1 fr.: share of clips with $|$lag$|$ within one video frame. Fine-tuned rows train LoRA adapters with the same budget. $^{\dagger}$\,single training seed.}
+  \caption{VAS test results (768 clips of the SpecVQGAN \texttt{vas\_valid} list), one sample per clip unless stated. Sync acc.\ is the held-out critic at tolerance 0 / 1 (chance $\approx 0.05$ / $0.14$). On.: onset; Env.: envelope correlation; $|$Lag$|$ in ms; 1 fr.: share of clips with $|$lag$|$ within one video frame. Fine-tuned rows train LoRA adapters with the same budget. Fine-tuned rows are single training runs (seed 0).}
   \label{tab:vas}
   \small
   \setlength{\tabcolsep}{3.2pt}
@@ -15,9 +15,9 @@
     \midrule
     Pretrained SpecVQGAN         & 0.368 & 0.206 & 0.003 & 502 & 5.6\% & 0.061 / 0.167 & 27.8 & 5.81 \\
     \quad best of 4              & 0.376 & 0.215 & 0.015 & 456 & 6.6\% & 0.151 / 0.375 & 26.7 & 5.92 \\
-    \quad GT-only fine-tune      & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} / \placeholder{} & \placeholder{} & \placeholder{} \\
-    \quad self-train, random$^{\dagger}$ & 0.344 & 0.185 & 0.006 & 467 & 6.5\% & 0.060 / 0.165 & 25.1 & 5.95 \\
-    \quad self-train, PAL$^{\dagger}$ & 0.347 & 0.186 & 0.004 & 488 & 6.5\% & 0.062 / 0.167 & 24.1 & 5.75 \\
+    \quad GT-only fine-tune      & 0.346 & 0.188 & 0.006 & 481 & 5.3\% & 0.055 / 0.167 & 20.4 & 5.58 \\
+    \quad self-train, random     & 0.344 & 0.185 & 0.006 & 467 & 6.5\% & 0.060 / 0.165 & 25.1 & 5.95 \\
+    \quad self-train, PAL        & 0.347 & 0.186 & 0.004 & 488 & 6.5\% & 0.062 / 0.167 & 24.1 & 5.75 \\
     \bottomrule
   \end{tabular}
 \end{table}

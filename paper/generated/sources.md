@@ -101,15 +101,15 @@ Significance file for tab:vas: `work/results/sig_vas_test.json` (present).
 |   best of 4 | Sync acc. (higher better) [sync_acc_tol1] | `0.375` | work/runs/vas_base/metrics_test_s0_rr4_735d74.json | `sync_acc_tol1` |
 |   best of 4 | FID (lower better) [fid] | `26.7` | work/runs/vas_base/metrics_test_s0_rr4_735d74.json | `fid` |
 |   best of 4 | MKL (lower better) [mkl] | `5.92` | work/runs/vas_base/metrics_test_s0_rr4_735d74.json | `mkl` |
-|   GT-only fine-tune | On. F1 (higher better) [onset_f1] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `onset_f1` |
-|   GT-only fine-tune | On. AP (higher better) [onset_ap] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `onset_ap` |
-|   GT-only fine-tune | Env. (higher better) [env_corr] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `env_corr` |
-|   GT-only fine-tune | \|Lag\| (lower better) [abs_lag_ms] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `abs_lag_ms` |
-|   GT-only fine-tune | 1 fr. (higher better) [lag_within_1vf] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `lag_within_1vf` |
-|   GT-only fine-tune | Sync acc. (higher better) [sync_acc_tol0] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `sync_acc_tol0` |
-|   GT-only fine-tune | Sync acc. (higher better) [sync_acc_tol1] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `sync_acc_tol1` |
-|   GT-only fine-tune | FID (lower better) [fid] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `fid` |
-|   GT-only fine-tune | MKL (lower better) [mkl] | `\placeholder{}` | missing: work/runs/vas_st_gt/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s1/metrics_test_s0[_<hash>].json<br>missing: work/runs/vas_st_gt_s2/metrics_test_s0[_<hash>].json | `mkl` |
+|   GT-only fine-tune | On. F1 (higher better) [onset_f1] | `0.346` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `onset_f1` |
+|   GT-only fine-tune | On. AP (higher better) [onset_ap] | `0.188` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `onset_ap` |
+|   GT-only fine-tune | Env. (higher better) [env_corr] | `0.006` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `env_corr` |
+|   GT-only fine-tune | \|Lag\| (lower better) [abs_lag_ms] | `481` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `abs_lag_ms` |
+|   GT-only fine-tune | 1 fr. (higher better) [lag_within_1vf] | `5.3\%` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `lag_within_1vf` |
+|   GT-only fine-tune | Sync acc. (higher better) [sync_acc_tol0] | `0.055` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `sync_acc_tol0` |
+|   GT-only fine-tune | Sync acc. (higher better) [sync_acc_tol1] | `0.167` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `sync_acc_tol1` |
+|   GT-only fine-tune | FID (lower better) [fid] | `20.4` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `fid` |
+|   GT-only fine-tune | MKL (lower better) [mkl] | `5.58` | work/runs/vas_st_gt/metrics_test_s0_0dfc76.json | `mkl` |
 |   self-train, random | On. F1 (higher better) [onset_f1] | `0.344` | work/runs/vas_st_rand/metrics_test_s0_97c626.json | `onset_f1` |
 |   self-train, random | On. AP (higher better) [onset_ap] | `0.185` | work/runs/vas_st_rand/metrics_test_s0_97c626.json | `onset_ap` |
 |   self-train, random | Env. (higher better) [env_corr] | `0.006` | work/runs/vas_st_rand/metrics_test_s0_97c626.json | `env_corr` |
@@ -133,59 +133,59 @@ Significance file for tab:vas: `work/results/sig_vas_test.json` (present).
 
 | Row | Column | Value | Source file(s) | Key |
 |---|---|---|---|---|
-| One sample | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/first/act_f1` |
-| One sample | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/first/lag_within_1vf` |
-| One sample | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/first/sync_tol1` |
-| One sample | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/first/lag_within_1vf` |
-| One sample | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/first/abs_lag_ms` |
-| One sample | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/first/sync_tol1` |
-| One sample | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/first/fid` |
-| Best of 8, sigma = 0 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0/act_f1` |
-| Best of 8, sigma = 0 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0/lag_within_1vf` |
-| Best of 8, sigma = 0 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0/sync_tol1` |
-| Best of 8, sigma = 0 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0/lag_within_1vf` |
-| Best of 8, sigma = 0 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0/abs_lag_ms` |
-| Best of 8, sigma = 0 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0/sync_tol1` |
-| Best of 8, sigma = 0 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0/fid` |
-| Best of 8, sigma = 0.5 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0.5/act_f1` |
-| Best of 8, sigma = 0.5 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0.5/lag_within_1vf` |
-| Best of 8, sigma = 0.5 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s0.5/sync_tol1` |
-| Best of 8, sigma = 0.5 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0.5/lag_within_1vf` |
-| Best of 8, sigma = 0.5 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0.5/abs_lag_ms` |
-| Best of 8, sigma = 0.5 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0.5/sync_tol1` |
-| Best of 8, sigma = 0.5 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s0.5/fid` |
-| Best of 8, sigma = 1 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s1/act_f1` |
-| Best of 8, sigma = 1 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s1/lag_within_1vf` |
-| Best of 8, sigma = 1 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s1/sync_tol1` |
-| Best of 8, sigma = 1 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s1/lag_within_1vf` |
-| Best of 8, sigma = 1 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s1/abs_lag_ms` |
-| Best of 8, sigma = 1 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s1/sync_tol1` |
-| Best of 8, sigma = 1 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s1/fid` |
-| Best of 8, sigma = 2 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s2/act_f1` |
-| Best of 8, sigma = 2 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s2/lag_within_1vf` |
-| Best of 8, sigma = 2 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_s2/sync_tol1` |
-| Best of 8, sigma = 2 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s2/lag_within_1vf` |
-| Best of 8, sigma = 2 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s2/abs_lag_ms` |
-| Best of 8, sigma = 2 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s2/sync_tol1` |
-| Best of 8, sigma = 2 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_s2/fid` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a0.5-2/act_f1` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a0.5-2/lag_within_1vf` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a0.5-2/sync_tol1` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a0.5-2/lag_within_1vf` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a0.5-2/abs_lag_ms` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a0.5-2/sync_tol1` |
-| Best of 8, sigma = 0.5, sigma_late = 2 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a0.5-2/fid` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a2-0.5/act_f1` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a2-0.5/lag_within_1vf` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/best8_a2-0.5/sync_tol1` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a2-0.5/lag_within_1vf` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a2-0.5/abs_lag_ms` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a2-0.5/sync_tol1` |
-| Best of 8, sigma = 2, sigma_late = 0.5 | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/best8_a2-0.5/fid` |
-| Oracle (upper bound) | FlashDot Tone F1 (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/oracle_actf1/act_f1` |
-| Oracle (upper bound) | FlashDot 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/oracle_actf1/lag_within_1vf` |
-| Oracle (upper bound) | FlashDot Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_fd/rerank_ablation_test_*.json | `means/oracle_actf1/sync_tol1` |
-| Oracle (upper bound) | VAS 1 fr. (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/oracle_lag/lag_within_1vf` |
-| Oracle (upper bound) | VAS \|Lag\| (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/oracle_lag/abs_lag_ms` |
-| Oracle (upper bound) | VAS Sync (higher better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/oracle_lag/sync_tol1` |
-| Oracle (upper bound) | VAS FID (lower better) | `\placeholder{}` | missing: work/runs/rr_ablation_vas/rerank_ablation_test_*.json | `means/oracle_lag/fid` |
+| One sample | FlashDot Tone F1 (higher better) | `0.510` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/first/act_f1` |
+| One sample | FlashDot 1 fr. (higher better) | `0.270` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/first/lag_within_1vf` |
+| One sample | FlashDot Sync (higher better) | `0.285` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/first/sync_tol1` |
+| One sample | VAS 1 fr. (higher better) | `5.5\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/first/lag_within_1vf` |
+| One sample | VAS \|Lag\| (lower better) | `525` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/first/abs_lag_ms` |
+| One sample | VAS Sync (higher better) | `0.164` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/first/sync_tol1` |
+| One sample | VAS FID (lower better) | `37.0` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/first/fid` |
+| Best of 8, sigma = 0 | FlashDot Tone F1 (higher better) | `0.539` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0/act_f1` |
+| Best of 8, sigma = 0 | FlashDot 1 fr. (higher better) | `0.490` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0/lag_within_1vf` |
+| Best of 8, sigma = 0 | FlashDot Sync (higher better) | `0.580` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0/sync_tol1` |
+| Best of 8, sigma = 0 | VAS 1 fr. (higher better) | `7.0\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0/lag_within_1vf` |
+| Best of 8, sigma = 0 | VAS \|Lag\| (lower better) | `439` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0/abs_lag_ms` |
+| Best of 8, sigma = 0 | VAS Sync (higher better) | `0.465` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0/sync_tol1` |
+| Best of 8, sigma = 0 | VAS FID (lower better) | `35.7` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0/fid` |
+| Best of 8, sigma = 0.5 | FlashDot Tone F1 (higher better) | `0.550` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0.5/act_f1` |
+| Best of 8, sigma = 0.5 | FlashDot 1 fr. (higher better) | `0.475` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0.5/lag_within_1vf` |
+| Best of 8, sigma = 0.5 | FlashDot Sync (higher better) | `0.625` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s0.5/sync_tol1` |
+| Best of 8, sigma = 0.5 | VAS 1 fr. (higher better) | `7.8\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0.5/lag_within_1vf` |
+| Best of 8, sigma = 0.5 | VAS \|Lag\| (lower better) | `432` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0.5/abs_lag_ms` |
+| Best of 8, sigma = 0.5 | VAS Sync (higher better) | `0.465` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0.5/sync_tol1` |
+| Best of 8, sigma = 0.5 | VAS FID (lower better) | `35.9` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s0.5/fid` |
+| Best of 8, sigma = 1 | FlashDot Tone F1 (higher better) | `0.549` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s1/act_f1` |
+| Best of 8, sigma = 1 | FlashDot 1 fr. (higher better) | `0.415` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s1/lag_within_1vf` |
+| Best of 8, sigma = 1 | FlashDot Sync (higher better) | `0.680` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s1/sync_tol1` |
+| Best of 8, sigma = 1 | VAS 1 fr. (higher better) | `7.4\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s1/lag_within_1vf` |
+| Best of 8, sigma = 1 | VAS \|Lag\| (lower better) | `436` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s1/abs_lag_ms` |
+| Best of 8, sigma = 1 | VAS Sync (higher better) | `0.449` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s1/sync_tol1` |
+| Best of 8, sigma = 1 | VAS FID (lower better) | `35.4` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s1/fid` |
+| Best of 8, sigma = 2 | FlashDot Tone F1 (higher better) | `0.553` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s2/act_f1` |
+| Best of 8, sigma = 2 | FlashDot 1 fr. (higher better) | `0.365` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s2/lag_within_1vf` |
+| Best of 8, sigma = 2 | FlashDot Sync (higher better) | `0.645` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_s2/sync_tol1` |
+| Best of 8, sigma = 2 | VAS 1 fr. (higher better) | `7.4\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s2/lag_within_1vf` |
+| Best of 8, sigma = 2 | VAS \|Lag\| (lower better) | `425` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s2/abs_lag_ms` |
+| Best of 8, sigma = 2 | VAS Sync (higher better) | `0.426` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s2/sync_tol1` |
+| Best of 8, sigma = 2 | VAS FID (lower better) | `35.7` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_s2/fid` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot Tone F1 (higher better) | `0.549` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a0.5-2/act_f1` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot 1 fr. (higher better) | `0.340` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a0.5-2/lag_within_1vf` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | FlashDot Sync (higher better) | `0.615` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a0.5-2/sync_tol1` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | VAS 1 fr. (higher better) | `7.8\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a0.5-2/lag_within_1vf` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | VAS \|Lag\| (lower better) | `423` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a0.5-2/abs_lag_ms` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | VAS Sync (higher better) | `0.383` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a0.5-2/sync_tol1` |
+| Best of 8, sigma = 0.5, sigma_late = 2 | VAS FID (lower better) | `34.1` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a0.5-2/fid` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot Tone F1 (higher better) | `0.548` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a2-0.5/act_f1` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot 1 fr. (higher better) | `0.380` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a2-0.5/lag_within_1vf` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | FlashDot Sync (higher better) | `0.585` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/best8_a2-0.5/sync_tol1` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | VAS 1 fr. (higher better) | `9.4\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a2-0.5/lag_within_1vf` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | VAS \|Lag\| (lower better) | `422` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a2-0.5/abs_lag_ms` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | VAS Sync (higher better) | `0.426` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a2-0.5/sync_tol1` |
+| Best of 8, sigma = 2, sigma_late = 0.5 | VAS FID (lower better) | `35.2` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/best8_a2-0.5/fid` |
+| Oracle (upper bound) | FlashDot Tone F1 (higher better) | `0.689` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/oracle_actf1/act_f1` |
+| Oracle (upper bound) | FlashDot 1 fr. (higher better) | `0.275` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/oracle_actf1/lag_within_1vf` |
+| Oracle (upper bound) | FlashDot Sync (higher better) | `0.345` | work/runs/rr_ablation_fd/rerank_ablation_test_s0_n200_c8_ee2783.json [fd2_ce_pk05] | `means/oracle_actf1/sync_tol1` |
+| Oracle (upper bound) | VAS 1 fr. (higher better) | `39.8\%` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/oracle_lag/lag_within_1vf` |
+| Oracle (upper bound) | VAS \|Lag\| (lower better) | `97` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/oracle_lag/abs_lag_ms` |
+| Oracle (upper bound) | VAS Sync (higher better) | `0.227` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/oracle_lag/sync_tol1` |
+| Oracle (upper bound) | VAS FID (lower better) | `34.2` | work/runs/rr_ablation_vas/rerank_ablation_test_s0_n256_c8_f818aa.json [last.ckpt] | `means/oracle_lag/fid` |

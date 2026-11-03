@@ -315,6 +315,8 @@ def tab_vas(work, runs, src, sig_path, alpha):
                 max_n = max(max_n, row_n)
             if mark:
                 used.add(row_n)
+            if max_n <= 1:
+                mark = ''  # all VAS rows are single runs; the caption says so
             cells = []
             for col, keys, kind in VAS_COLS:
                 parts, sds = [], []
@@ -350,7 +352,7 @@ def tab_vas(work, runs, src, sig_path, alpha):
                                 ' / '.join(r'$\pm$' + sd if sd else '' for sd in sds) + '}')
                     cells.append(cell)
             body.append(f'    {spec["label"] + mark:<28s} & ' + ' & '.join(cells) + ' \\\\')
-    note = n_seeds_note(used, max_n)
+    note = n_seeds_note(used, max_n) if max_n > 1 else 'Fine-tuned rows are single training runs (seed 0).'
     sig_note = (f' $^{{*}}$\\,PAL selection differs from random selection with $p < {alpha:g}$ (paired bootstrap over clips).'
                 if starred else '')
     caption = ('VAS test results (768 clips of the SpecVQGAN \\texttt{vas\\_valid} list), one sample per clip unless '
@@ -460,8 +462,9 @@ def tab_window(runs, src):
     word = {1: 'one', 2: 'two', 3: 'three'}.get(n_fd, str(n_fd) if n_fd else PH)
     fd_mark = f' {MARK_TEXT[n_fd]}.' if n_fd in MARK else ''
     caption = (f'Candidate selection on the test split: every row chooses among the same {nc} free-running samples per '
-               f'clip. FlashDot: corruption-trained CE generator, {fd_n} clips, mean $\\pm$ std over {word} generator '
-               f'seeds.{fd_mark} VAS: pretrained SpecVQGAN, {vas_n} clips, one run. $\\sigma$: width of the binding window '
+               f'clip. FlashDot: corruption-trained CE generator, {fd_n} clips, ' +
+               (f'mean $\\pm$ std over {word} generator seeds.' if n_fd and n_fd > 1 else 'one generator seed.') +
+               f' VAS: pretrained SpecVQGAN, {vas_n} clips, one run; its FID uses these clips only and is not comparable with \\cref{{tab:vas}}. $\\sigma$: width of the binding window '
                f'on the audio-early side, $\\sigma_{{\\mathrm{{late}}}}$ on the audio-late side (\\cref{{eq:window}}). '
                f'Sync: held-out critic at tolerance 1. The oracle keeps the candidate with the best true tone F1 '
                f'(FlashDot) or smallest $|$lag$|$ (VAS).')

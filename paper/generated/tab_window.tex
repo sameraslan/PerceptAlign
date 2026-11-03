@@ -2,7 +2,7 @@
 \providecommand{\std}[1]{\,{\scriptsize$\pm$#1}}
 \begin{table}[t]
   \centering
-  \caption{Candidate selection on the test split: every row chooses among the same 8 free-running samples per clip. FlashDot: corruption-trained CE generator, \placeholder{} clips, mean $\pm$ std over \placeholder{} generator seeds. VAS: pretrained SpecVQGAN, \placeholder{} clips, one run. $\sigma$: width of the binding window on the audio-early side, $\sigma_{\mathrm{late}}$ on the audio-late side (\cref{eq:window}). Sync: held-out critic at tolerance 1. The oracle keeps the candidate with the best true tone F1 (FlashDot) or smallest $|$lag$|$ (VAS).}
+  \caption{Candidate selection on the test split: every row chooses among the same 8 free-running samples per clip. FlashDot: corruption-trained CE generator, 200 clips, one generator seed. VAS: pretrained SpecVQGAN, 256 clips, one run; its FID uses these clips only and is not comparable with \cref{tab:vas}. $\sigma$: width of the binding window on the audio-early side, $\sigma_{\mathrm{late}}$ on the audio-late side (\cref{eq:window}). Sync: held-out critic at tolerance 1. The oracle keeps the candidate with the best true tone F1 (FlashDot) or smallest $|$lag$|$ (VAS).}
   \label{tab:window}
   \small
   \setlength{\tabcolsep}{3.2pt}
@@ -12,15 +12,15 @@
     \cmidrule(lr){2-4} \cmidrule(lr){5-8}
     Selection & Tone F1 $\uparrow$ & 1 fr.\ $\uparrow$ & Sync $\uparrow$ & 1 fr.\ $\uparrow$ & $|$Lag$|$ $\downarrow$ & Sync $\uparrow$ & FID $\downarrow$ \\
     \midrule
-    One sample                                           & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 0$                              & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 0.5$                            & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 1$                              & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 2$                              & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 0.5$, $\sigma_{\mathrm{late}} = 2$ & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
-    Best of 8, $\sigma = 2$, $\sigma_{\mathrm{late}} = 0.5$ & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    One sample                                           & 0.510 & 0.270 & 0.285 & 5.5\% & 525 & 0.164 & 37.0 \\
+    Best of 8, $\sigma = 0$                              & 0.539 & 0.490 & 0.580 & 7.0\% & 439 & 0.465 & 35.7 \\
+    Best of 8, $\sigma = 0.5$                            & 0.550 & 0.475 & 0.625 & 7.8\% & 432 & 0.465 & 35.9 \\
+    Best of 8, $\sigma = 1$                              & 0.549 & 0.415 & 0.680 & 7.4\% & 436 & 0.449 & 35.4 \\
+    Best of 8, $\sigma = 2$                              & 0.553 & 0.365 & 0.645 & 7.4\% & 425 & 0.426 & 35.7 \\
+    Best of 8, $\sigma = 0.5$, $\sigma_{\mathrm{late}} = 2$ & 0.549 & 0.340 & 0.615 & 7.8\% & 423 & 0.383 & 34.1 \\
+    Best of 8, $\sigma = 2$, $\sigma_{\mathrm{late}} = 0.5$ & 0.548 & 0.380 & 0.585 & 9.4\% & 422 & 0.426 & 35.2 \\
     \midrule
-    Oracle (upper bound)                                 & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} & \placeholder{} \\
+    Oracle (upper bound)                                 & 0.689 & 0.275 & 0.345 & 39.8\% & 97 & 0.227 & 34.2 \\
     \bottomrule
   \end{tabular}
 \end{table}

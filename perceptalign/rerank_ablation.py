@@ -182,7 +182,7 @@ def main():
     pairs = [('first', f'best{C}_s1'), (f'best{C}_s1', f'best{C}_s0')]
     pairs += [(f'best{C}_s1', f'best{C}_{w}') for w in args.windows if w[0] == 'a']
     boot = {f'{a}:{b}': sig.compare(pc[a], pc[b], n_boot=args.n_boot) for a, b in pairs if a in pc and b in pc}
-    res = dict(tag=tag, n=N, n_cand=C, windows=args.windows, rerank_critic=args.rerank_critic,
+    res = dict(tag=tag, run=str(args.run), n=N, n_cand=C, windows=args.windows, rerank_critic=args.rerank_critic,
                eval_critic=args.eval_critic, means=means, bootstrap=boot)
     (out / f'rerank_ablation_{tag}.json').write_text(json.dumps(res, indent=1))
     cols = [k for k in ('act_f1', 'onset_f1', 'abs_lag_ms', 'lag_within_1vf', 'sync_tol0', 'fid', 'mkl')

@@ -1,8 +1,3 @@
-\section{Relation to an earlier draft}
-\label{app:earlier}
-
-An unpublished 2023 draft of this project reported results from an earlier implementation of the alignment loss, and all of its numbers are withdrawn. In that code the loss could not influence the generator (the predicted spectrogram was decoded from the argmax of the transformer's logits inside a function that ran without gradient tracking, so no gradient reached the transformer), the parameters of the loss's two feature extractors were not in the optimizer, and offsets were mis-indexed. Every result in this paper comes from a re-run with a new implementation in which the gradient reaches the transformer (\cref{sec:pal-loss}).
-
 \section{FlashDot example and metric check values}
 \label{app:extra}
 

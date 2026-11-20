@@ -1,0 +1,49 @@
+\documentclass[10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[authoryear,round]{natbib}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% Result-dependent text is marked in red and must be filled before release.
+\newcommand{\placeholder}[1]{\textcolor{red}{[#1]}}
+
+\newcommand{\PAL}{\mathcal{L}_{\mathrm{PAL}}}
+\newcommand{\CE}{\mathcal{L}_{\mathrm{CE}}}
+\newcommand{\sg}{\operatorname{sg}}
+
+\title{A Synchronization Critic Improves\\Video-to-Audio Timing at Sampling Time}
+\author{Samer Aslan\\Johns Hopkins University}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Video-to-audio (V2A) generators usually produce the right kind of sound for a scene, but often at the wrong moment. We study how a synchronization critic can improve the timing of a codebook V2A generator (SpecVQGAN). The critic is a small audio-visual model, trained contrastively on real clips to find the offset between audio and video and then frozen. Its score, the Perceptual Alignment Loss (PAL), is the share of the critic's offset distribution that falls inside a window around zero offset, a simplified stand-in for the human audio-visual temporal binding window. We compare two ways to use PAL. As a differentiable training loss, passed to the transformer's logits through straight-through codebook decoding, PAL makes timing worse on FlashDot, a synthetic benchmark of flashing dots and tones with frame-exact labels. Two diagnostics suggest why: teacher-forced predictions inherit their alignment from the ground-truth prefix, so they look aligned without using the video, and optimizing free logits against the frozen critic reaches the score of real audio while the decoded audio stays poorly timed. As a reward on the generator's own free-running samples, the same critic helps: keeping the best of several samples improves timing on the FlashDot test split in every seed and on the open-domain VAS dataset. PAL-filtered self-training, which fine-tunes the generator on its own best-scored samples, does not keep this gain: it does no better than fine-tuning on randomly chosen samples, and it does not improve timing over the model it starts from. We also find that envelope lag recovers known delays exactly, while DTW distance tolerates time shifts by construction and is unsuited as a timing metric. In our experiments a synchronization critic improved the timing of a discrete-token V2A model only when it chose among samples at generation time. Code and FlashDot: \url{https://github.com/sameraslan/PerceptAlign}.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/method}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/limitations}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

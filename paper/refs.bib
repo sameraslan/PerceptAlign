@@ -1,0 +1,596 @@
+% refs.bib for "Perceptual Alignment Loss (PAL)"
+% Every entry below was checked on 2026-11-02 against a primary record
+% (arXiv API, Crossref DOI record, PubMed, NeurIPS proceedings, or the project's own repository).
+% See related_work_notes.md for what each paper does and for entries left out as unverified.
+
+% ---------------------------------------------------------------------------
+% Base model and building blocks
+% ---------------------------------------------------------------------------
+
+@inproceedings{iashin2021taming,
+  author    = {Iashin, Vladimir and Rahtu, Esa},
+  title     = {Taming Visually Guided Sound Generation},
+  booktitle = {British Machine Vision Conference (BMVC)},
+  year      = {2021},
+  eprint    = {2110.08791},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2110.08791}
+}
+
+@inproceedings{esser2021taming,
+  author    = {Esser, Patrick and Rombach, Robin and Ommer, Bj{\"o}rn},
+  title     = {Taming Transformers for High-Resolution Image Synthesis},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {12868--12878},
+  year      = {2021},
+  doi       = {10.1109/CVPR46437.2021.01268}
+}
+
+@inproceedings{rombach2022ldm,
+  author    = {Rombach, Robin and Blattmann, Andreas and Lorenz, Dominik and Esser, Patrick and Ommer, Bj{\"o}rn},
+  title     = {High-Resolution Image Synthesis with Latent Diffusion Models},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {10674--10685},
+  year      = {2022},
+  doi       = {10.1109/CVPR52688.2022.01042}
+}
+
+@misc{wang2020denseflow,
+  author       = {Wang, Shiguang and Li, Zhizhong and Zhao, Yue and Xiong, Yuanjun and Wang, Limin and Lin, Dahua},
+  title        = {{denseflow}},
+  howpublished = {\url{https://github.com/open-mmlab/denseflow}},
+  year         = {2020},
+  note         = {Software}
+}
+
+% ---------------------------------------------------------------------------
+% Datasets and early video-to-audio generation
+% ---------------------------------------------------------------------------
+
+@inproceedings{owens2016visually,
+  author    = {Owens, Andrew and Isola, Phillip and McDermott, Josh and Torralba, Antonio and Adelson, Edward H. and Freeman, William T.},
+  title     = {Visually Indicated Sounds},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {2405--2413},
+  year      = {2016},
+  doi       = {10.1109/CVPR.2016.264}
+}
+
+@inproceedings{zhou2018visual,
+  author    = {Zhou, Yipin and Wang, Zhaowen and Fang, Chen and Bui, Trung and Berg, Tamara L.},
+  title     = {Visual to Sound: Generating Natural Sound for Videos in the Wild},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {3550--3558},
+  year      = {2018},
+  doi       = {10.1109/CVPR.2018.00374}
+}
+
+@article{chen2020regnet,
+  author  = {Chen, Peihao and Zhang, Yang and Tan, Mingkui and Xiao, Hongdong and Huang, Deng and Gan, Chuang},
+  title   = {Generating Visually Aligned Sound From Videos},
+  journal = {IEEE Transactions on Image Processing},
+  volume  = {29},
+  pages   = {8292--8302},
+  year    = {2020},
+  doi     = {10.1109/TIP.2020.3009820}
+}
+
+% ---------------------------------------------------------------------------
+% Self-supervised audio-visual correspondence and synchronization
+% ---------------------------------------------------------------------------
+
+@inproceedings{chung2016outoftime,
+  author    = {Chung, Joon Son and Zisserman, Andrew},
+  title     = {Out of Time: Automated Lip Sync in the Wild},
+  booktitle = {Computer Vision -- ACCV 2016 Workshops},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10117},
+  pages     = {251--263},
+  publisher = {Springer},
+  year      = {2017},
+  doi       = {10.1007/978-3-319-54427-4_19}
+}
+
+@inproceedings{owens2018audio,
+  author    = {Owens, Andrew and Efros, Alexei A.},
+  title     = {Audio-Visual Scene Analysis with Self-Supervised Multisensory Features},
+  booktitle = {Computer Vision -- ECCV 2018},
+  series    = {Lecture Notes in Computer Science},
+  pages     = {639--658},
+  publisher = {Springer},
+  year      = {2018},
+  doi       = {10.1007/978-3-030-01231-1_39}
+}
+
+@inproceedings{arandjelovic2018objects,
+  author    = {Arandjelovi{\'c}, Relja and Zisserman, Andrew},
+  title     = {Objects that Sound},
+  booktitle = {Computer Vision -- ECCV 2018},
+  series    = {Lecture Notes in Computer Science},
+  pages     = {451--466},
+  publisher = {Springer},
+  year      = {2018},
+  doi       = {10.1007/978-3-030-01246-5_27}
+}
+
+@inproceedings{chung2019perfect,
+  author    = {Chung, Soo-Whan and Chung, Joon Son and Kang, Hong-Goo},
+  title     = {Perfect Match: Improved Cross-modal Embeddings for Audio-visual Synchronisation},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages     = {3965--3969},
+  year      = {2019},
+  doi       = {10.1109/ICASSP.2019.8682524}
+}
+
+@inproceedings{afouras2020self,
+  author    = {Afouras, Triantafyllos and Owens, Andrew and Chung, Joon Son and Zisserman, Andrew},
+  title     = {Self-supervised Learning of Audio-Visual Objects from Video},
+  booktitle = {Computer Vision -- ECCV 2020},
+  series    = {Lecture Notes in Computer Science},
+  pages     = {208--224},
+  publisher = {Springer},
+  year      = {2020},
+  doi       = {10.1007/978-3-030-58523-5_13}
+}
+
+@inproceedings{kadandale2022vocalist,
+  author    = {Kadandale, Venkatesh Shenoy and Montesinos, Juan F. and Haro, Gloria},
+  title     = {{VocaLiST}: An Audio-Visual Synchronisation Model for Lips and Voices},
+  booktitle = {Interspeech},
+  pages     = {3128--3132},
+  year      = {2022},
+  doi       = {10.21437/Interspeech.2022-10861}
+}
+
+@inproceedings{iashin2022sparse,
+  author    = {Iashin, Vladimir and Xie, Weidi and Rahtu, Esa and Zisserman, Andrew},
+  title     = {Sparse in Space and Time: Audio-visual Synchronisation with Trainable Selectors},
+  booktitle = {British Machine Vision Conference (BMVC)},
+  year      = {2022},
+  eprint    = {2210.07055},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2210.07055}
+}
+
+@inproceedings{chen2024mtdvocalist,
+  author    = {Chen, Xuanjun and Wu, Haibin and Wang, Chung-Che and Lee, Hung-yi and Jang, Jyh-Shing Roger},
+  title     = {Multimodal Transformer Distillation for Audio-Visual Synchronization},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages     = {7755--7759},
+  year      = {2024},
+  doi       = {10.1109/ICASSP48485.2024.10446372}
+}
+
+@inproceedings{iashin2024synchformer,
+  author    = {Iashin, Vladimir and Xie, Weidi and Rahtu, Esa and Zisserman, Andrew},
+  title     = {Synchformer: Efficient Synchronization From Sparse Cues},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages     = {5325--5329},
+  year      = {2024},
+  doi       = {10.1109/ICASSP48485.2024.10448489}
+}
+
+% ---------------------------------------------------------------------------
+% Synchronization losses inside generators (speech and talking faces)
+% ---------------------------------------------------------------------------
+
+@inproceedings{prajwal2020wav2lip,
+  author    = {Prajwal, K R and Mukhopadhyay, Rudrabha and Namboodiri, Vinay P. and Jawahar, C. V.},
+  title     = {A Lip Sync Expert Is All You Need for Speech to Lip Generation In the Wild},
+  booktitle = {Proceedings of the 28th ACM International Conference on Multimedia (MM)},
+  pages     = {484--492},
+  year      = {2020},
+  doi       = {10.1145/3394171.3413532}
+}
+
+@inproceedings{kim2021vcagan,
+  author    = {Kim, Minsu and Hong, Joanna and Ro, Yong Man},
+  title     = {Lip to Speech Synthesis with Visual Context Attentional {GAN}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {34},
+  pages     = {2758--2770},
+  year      = {2021},
+  url       = {https://proceedings.neurips.cc/paper/2021/hash/16437d40c29a1a7b1e78143c9c38f289-Abstract.html}
+}
+
+@inproceedings{niu2023synchronization,
+  author    = {Niu, Zhe and Mak, Brian},
+  title     = {On the Audio-visual Synchronization for Lip-to-Speech Synthesis},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  pages     = {7809--7818},
+  year      = {2023},
+  doi       = {10.1109/ICCV51070.2023.00721}
+}
+
+@misc{li2024latentsync,
+  author        = {Li, Chunyu and Zhang, Chao and Xu, Weikai and Lin, Jingyu and Xie, Jinghui and Feng, Weiguo and Peng, Bingyue and Chen, Cunjian and Xing, Weiwei},
+  title         = {{LatentSync}: Taming Audio-Conditioned Latent Diffusion Models for Lip Sync with {SyncNet} Supervision},
+  year          = {2024},
+  eprint        = {2412.09262},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2412.09262}
+}
+
+% ---------------------------------------------------------------------------
+% Video-to-audio generation, 2022 onward
+% ---------------------------------------------------------------------------
+
+@inproceedings{sheffer2023im2wav,
+  author    = {Sheffer, Roy and Adi, Yossi},
+  title     = {I Hear Your True Colors: Image Guided Audio Generation},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year      = {2023},
+  doi       = {10.1109/ICASSP49357.2023.10096023}
+}
+
+@inproceedings{du2023conditional,
+  author    = {Du, Yuexi and Chen, Ziyang and Salamon, Justin and Russell, Bryan and Owens, Andrew},
+  title     = {Conditional Generation of Audio from Video via Foley Analogies},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {2426--2436},
+  year      = {2023},
+  doi       = {10.1109/CVPR52729.2023.00240}
+}
+
+@inproceedings{luo2023difffoley,
+  author    = {Luo, Simian and Yan, Chuanhao and Hu, Chenxu and Zhao, Hang},
+  title     = {{Diff-Foley}: Synchronized Video-to-Audio Synthesis with Latent Diffusion Models},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {36},
+  pages     = {48855--48876},
+  year      = {2023},
+  doi       = {10.52202/075280-2121}
+}
+
+@inproceedings{wang2024v2amapper,
+  author    = {Wang, Heng and Ma, Jianbo and Pascual, Santiago and Cartwright, Richard and Cai, Weidong},
+  title     = {{V2A-Mapper}: A Lightweight Solution for Vision-to-Audio Generation by Connecting Foundation Models},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {38},
+  number    = {14},
+  pages     = {15492--15501},
+  year      = {2024},
+  doi       = {10.1609/aaai.v38i14.29475}
+}
+
+@inproceedings{comunita2024syncfusion,
+  author    = {Comunit{\`a}, Marco and Gramaccioni, Riccardo F. and Postolache, Emilian and Rodol{\`a}, Emanuele and Comminiello, Danilo and Reiss, Joshua D.},
+  title     = {{SyncFusion}: Multimodal Onset-Synchronized Video-to-Audio Foley Synthesis},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages     = {936--940},
+  year      = {2024},
+  doi       = {10.1109/ICASSP48485.2024.10447063}
+}
+
+@inproceedings{xing2024seeing,
+  author    = {Xing, Yazhou and He, Yingqing and Tian, Zeyue and Wang, Xintao and Chen, Qifeng},
+  title     = {Seeing and Hearing: Open-domain Visual-Audio Generation with Diffusion Latent Aligners},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {7151--7161},
+  year      = {2024},
+  doi       = {10.1109/CVPR52733.2024.00683}
+}
+
+@inproceedings{mei2024foleygen,
+  author    = {Mei, Xinhao and Nagaraja, Varun and Le Lan, Gael and Ni, Zhaoheng and Chang, Ernie and Shi, Yangyang and Chandra, Vikas},
+  title     = {{FoleyGen}: Visually-Guided Audio Generation},
+  booktitle = {IEEE 34th International Workshop on Machine Learning for Signal Processing (MLSP)},
+  year      = {2024},
+  doi       = {10.1109/MLSP58920.2024.10734721}
+}
+
+@inproceedings{wang2024tiva,
+  author    = {Wang, Xihua and Wang, Yuyue and Wu, Yihan and Song, Ruihua and Tan, Xu and Chen, Zehua and Xu, Hongteng and Sui, Guodong},
+  title     = {{TiVA}: Time-Aligned Video-to-Audio Generation},
+  booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia (MM)},
+  pages     = {573--582},
+  year      = {2024},
+  doi       = {10.1145/3664647.3681027}
+}
+
+@inproceedings{wang2024frieren,
+  author    = {Wang, Yongqi and Guo, Wenxiang and Huang, Rongjie and Huang, Jiawei and Wang, Zehan and You, Fuming and Li, Ruiqi and Zhao, Zhou},
+  title     = {Frieren: Efficient Video-to-Audio Generation Network with Rectified Flow Matching},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {37},
+  pages     = {128118--128138},
+  year      = {2024},
+  doi       = {10.52202/079017-4068}
+}
+
+@article{zhang2026foleycrafter,
+  author  = {Zhang, Yiming and Gu, Yicheng and Zeng, Yanhong and Xing, Zhening and Wang, Yuancheng and Wu, Zhizheng and Liu, Bin and Chen, Kai},
+  title   = {{FoleyCrafter}: Bring Silent Videos to Life with Lifelike and Synchronized Sounds},
+  journal = {International Journal of Computer Vision},
+  year    = {2026},
+  doi     = {10.1007/s11263-025-02649-3},
+  note    = {arXiv:2407.01494 (2024)}
+}
+
+@inproceedings{jeong2025rewas,
+  author    = {Jeong, Yujin and Kim, Yunji and Chun, Sanghyuk and Lee, Jiyoung},
+  title     = {Read, Watch and Scream! Sound Generation from Text and Video},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {39},
+  number    = {17},
+  pages     = {17590--17598},
+  year      = {2025},
+  doi       = {10.1609/aaai.v39i17.33934}
+}
+
+@inproceedings{viertola2025vaura,
+  author    = {Viertola, Ilpo and Iashin, Vladimir and Rahtu, Esa},
+  title     = {Temporally Aligned Audio for Video with Autoregression},
+  booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year      = {2025},
+  doi       = {10.1109/ICASSP49660.2025.10890587}
+}
+
+@inproceedings{cheng2025mmaudio,
+  author    = {Cheng, Ho Kei and Ishii, Masato and Hayakawa, Akio and Shibuya, Takashi and Schwing, Alexander and Mitsufuji, Yuki},
+  title     = {{MMAudio}: Taming Multimodal Joint Training for High-Quality Video-to-Audio Synthesis},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {28901--28911},
+  year      = {2025},
+  doi       = {10.1109/CVPR52734.2025.02691}
+}
+
+@inproceedings{mo2025foleyflow,
+  author    = {Mo, Shentong and Song, Yibing},
+  title     = {{Foley-Flow}: Coordinated Video-to-Audio Generation with Masked Audio-Visual Alignment and Dynamic Conditional Flows},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {28912--28921},
+  year      = {2025},
+  doi       = {10.1109/CVPR52734.2025.02692}
+}
+
+@inproceedings{ton2025taro,
+  author    = {Ton, Tri and Hong, Ji Woo and Yoo, Chang D.},
+  title     = {{TARO}: Timestep-Adaptive Representation Alignment with Onset-Aware Conditioning for Synchronized Video-to-Audio Synthesis},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  pages     = {14228--14237},
+  year      = {2025},
+  doi       = {10.1109/ICCV51701.2025.01320}
+}
+
+@inproceedings{chan2026v2adpo,
+  author        = {Chan, Nolan and Gang, Timmy and Wang, Yongqian and Liang, Yuzhe and Wang, Dingdong},
+  title         = {{V2A-DPO}: Omni-Preference Optimization for Video-to-Audio Generation},
+  booktitle     = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year          = {2026},
+  eprint        = {2603.11089},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2603.11089}
+}
+
+@misc{cheng2026syncdpo,
+  author        = {Cheng, Xin and Wang, Xihua and Ba, Ying and Wang, Yuyue and Guan, Kaisi and Wang, Yinbo and Li, Wenpu and Song, Ruihua},
+  title         = {{SyncDPO}: Enhancing Temporal Synchronization in Video-Audio Joint Generation via Preference Learning},
+  year          = {2026},
+  eprint        = {2605.12179},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2605.12179}
+}
+
+% ---------------------------------------------------------------------------
+% Human audio-visual timing and the temporal binding window
+% ---------------------------------------------------------------------------
+
+@article{dixon1980detection,
+  author  = {Dixon, N. F. and Spitz, L.},
+  title   = {The Detection of Auditory Visual Desynchrony},
+  journal = {Perception},
+  volume  = {9},
+  number  = {6},
+  pages   = {719--721},
+  year    = {1980},
+  doi     = {10.1068/p090719}
+}
+
+@article{fujisaki2004recalibration,
+  author  = {Fujisaki, Waka and Shimojo, Shinsuke and Kashino, Makio and Nishida, Shin'ya},
+  title   = {Recalibration of Audiovisual Simultaneity},
+  journal = {Nature Neuroscience},
+  volume  = {7},
+  number  = {7},
+  pages   = {773--778},
+  year    = {2004},
+  doi     = {10.1038/nn1268}
+}
+
+@article{vanwassenhove2007temporal,
+  author  = {van Wassenhove, Virginie and Grant, Ken W. and Poeppel, David},
+  title   = {Temporal Window of Integration in Auditory-Visual Speech Perception},
+  journal = {Neuropsychologia},
+  volume  = {45},
+  number  = {3},
+  pages   = {598--607},
+  year    = {2007},
+  doi     = {10.1016/j.neuropsychologia.2006.01.001}
+}
+
+@article{winkler2009modeling,
+  author  = {Winkler, Istv{\'a}n and Denham, Susan L. and Nelken, Israel},
+  title   = {Modeling the Auditory Scene: Predictive Regularity Representations and Perceptual Objects},
+  journal = {Trends in Cognitive Sciences},
+  volume  = {13},
+  number  = {12},
+  pages   = {532--540},
+  year    = {2009},
+  doi     = {10.1016/j.tics.2009.09.003}
+}
+
+@article{vroomen2010perception,
+  author  = {Vroomen, Jean and Keetels, Mirjam},
+  title   = {Perception of Intersensory Synchrony: A Tutorial Review},
+  journal = {Attention, Perception, \& Psychophysics},
+  volume  = {72},
+  number  = {4},
+  pages   = {871--884},
+  year    = {2010},
+  doi     = {10.3758/APP.72.4.871}
+}
+
+@article{hsieh2012spatial,
+  author  = {Hsieh, Po-Jang and Colas, Jaron T. and Kanwisher, Nancy},
+  title   = {Spatial Pattern of {BOLD} {fMRI} Activation Reveals Cross-Modal Information in Auditory Cortex},
+  journal = {Journal of Neurophysiology},
+  volume  = {107},
+  number  = {12},
+  pages   = {3428--3432},
+  year    = {2012},
+  doi     = {10.1152/jn.01094.2010}
+}
+
+@article{stevenson2012individual,
+  author  = {Stevenson, Ryan A. and Zemtsov, Raquel K. and Wallace, Mark T.},
+  title   = {Individual Differences in the Multisensory Temporal Binding Window Predict Susceptibility to Audiovisual Illusions},
+  journal = {Journal of Experimental Psychology: Human Perception and Performance},
+  volume  = {38},
+  number  = {6},
+  pages   = {1517--1529},
+  year    = {2012},
+  doi     = {10.1037/a0027339}
+}
+
+@article{wallace2014construct,
+  author  = {Wallace, Mark T. and Stevenson, Ryan A.},
+  title   = {The Construct of the Multisensory Temporal Binding Window and Its Dysregulation in Developmental Disabilities},
+  journal = {Neuropsychologia},
+  volume  = {64},
+  pages   = {105--123},
+  year    = {2014},
+  doi     = {10.1016/j.neuropsychologia.2014.08.005}
+}
+
+@article{takeshima2021visual,
+  author  = {Takeshima, Yasuhiro},
+  title   = {Visual Field Differences in Temporal Synchrony Processing for Audio-Visual Stimuli},
+  journal = {PLoS ONE},
+  volume  = {16},
+  number  = {12},
+  pages   = {e0261129},
+  year    = {2021},
+  doi     = {10.1371/journal.pone.0261129}
+}
+
+% ---------------------------------------------------------------------------
+% Training tools, exposure bias, self-training and reward over-optimisation
+% (checked on 2026-11-02 against arXiv, PMLR, NeurIPS/ISMIR proceedings, CVF and DOI records)
+% ---------------------------------------------------------------------------
+
+@misc{bengio2013estimating,
+  author        = {Bengio, Yoshua and L{\'e}onard, Nicholas and Courville, Aaron},
+  title         = {Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation},
+  year          = {2013},
+  eprint        = {1308.3432},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/1308.3432}
+}
+
+@inproceedings{he2016resnet,
+  author    = {He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  title     = {Deep Residual Learning for Image Recognition},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {770--778},
+  year      = {2016},
+  doi       = {10.1109/CVPR.2016.90}
+}
+
+@inproceedings{ioffe2015batch,
+  author    = {Ioffe, Sergey and Szegedy, Christian},
+  title     = {Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift},
+  booktitle = {Proceedings of the 32nd International Conference on Machine Learning (ICML)},
+  series    = {PMLR},
+  volume    = {37},
+  pages     = {448--456},
+  year      = {2015}
+}
+
+@inproceedings{hu2022lora,
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2022},
+  eprint    = {2106.09685},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=nZeVKeeFYf9}
+}
+
+@inproceedings{loshchilov2019adamw,
+  author    = {Loshchilov, Ilya and Hutter, Frank},
+  title     = {Decoupled Weight Decay Regularization},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2019},
+  eprint    = {1711.05101},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/1711.05101}
+}
+
+@inproceedings{raffel2014mireval,
+  author    = {Raffel, Colin and McFee, Brian and Humphrey, Eric J. and Salamon, Justin and Nieto, Oriol and Liang, Dawen and Ellis, Daniel P. W.},
+  title     = {mir\_eval: A Transparent Implementation of Common {MIR} Metrics},
+  booktitle = {Proceedings of the 15th International Society for Music Information Retrieval Conference (ISMIR)},
+  pages     = {367--372},
+  year      = {2014}
+}
+
+@article{salvador2007fastdtw,
+  author  = {Salvador, Stan and Chan, Philip},
+  title   = {Toward Accurate Dynamic Time Warping in Linear Time and Space},
+  journal = {Intelligent Data Analysis},
+  volume  = {11},
+  number  = {5},
+  pages   = {561--580},
+  year    = {2007},
+  doi     = {10.3233/IDA-2007-11508}
+}
+
+@inproceedings{bengio2015scheduled,
+  author    = {Bengio, Samy and Vinyals, Oriol and Jaitly, Navdeep and Shazeer, Noam},
+  title     = {Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  pages     = {1171--1179},
+  year      = {2015},
+  eprint    = {1506.03099},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{ranzato2016sequence,
+  author    = {Ranzato, Marc'Aurelio and Chopra, Sumit and Auli, Michael and Zaremba, Wojciech},
+  title     = {Sequence Level Training with Recurrent Neural Networks},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2016},
+  eprint    = {1511.06732},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/1511.06732}
+}
+
+@inproceedings{anthony2017thinking,
+  author    = {Anthony, Thomas and Tian, Zheng and Barber, David},
+  title     = {Thinking Fast and Slow with Deep Learning and Tree Search},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  pages     = {5360--5370},
+  year      = {2017},
+  eprint    = {1705.08439},
+  archivePrefix = {arXiv}
+}
+
+@misc{gulcehre2023rest,
+  author        = {Gulcehre, Caglar and Le Paine, Tom and Srinivasan, Srivatsan and Konyushkova, Ksenia and Weerts, Lotte and Sharma, Abhishek and Siddhant, Aditya and Ahern, Alex and Wang, Miaosen and Gu, Chenjie and Macherey, Wolfgang and Doucet, Arnaud and Firat, Orhan and de Freitas, Nando},
+  title         = {Reinforced Self-Training ({ReST}) for Language Modeling},
+  year          = {2023},
+  eprint        = {2308.08998},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2308.08998}
+}
+
+@inproceedings{gao2023scaling,
+  author    = {Gao, Leo and Schulman, John and Hilton, Jacob},
+  title     = {Scaling Laws for Reward Model Overoptimization},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning (ICML)},
+  series    = {PMLR},
+  volume    = {202},
+  pages     = {10835--10866},
+  year      = {2023}
+}

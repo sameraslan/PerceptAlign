@@ -1,0 +1,31 @@
+\section{Experimental setup}
+\label{sec:setup}
+
+\subsection{Datasets}
+\label{sec:data}
+
+\paragraph{FlashDot.}
+FlashDot is a synthetic benchmark in which the correct timing is known exactly (example in \cref{fig:flashdot}). Each 10\,s clip shows a red dot on a white background during 1--6 ``on'' intervals of 0.15--1.5\,s and plays a 1\,kHz tone during exactly the same intervals; video runs at 21.5 frames per second, and clips are generated from a seed. Spectrograms follow the SpecVQGAN VAS pipeline, and visual features are the 2048-dimensional pooled outputs of an ImageNet-trained ResNet-50 \citep{he2016resnet}, one per frame. We generate 2000 clips, split 1600/200/200 into train, development and test.
+
+
+\paragraph{VAS.}
+VAS \citep{chen2020regnet} has eight classes (baby, cough, dog, drum, fireworks, gun, hammer, sneeze). We use the spectrograms and features released with SpecVQGAN \citep{iashin2021taming}: BN-Inception \citep{ioffe2015batch} RGB and optical-flow features, flow from denseflow \citep{wang2020denseflow}, concatenated to 2048 dimensions, 212 frames per clip. The test set is SpecVQGAN's \texttt{vas\_valid} list (768 clips). A class-stratified 5\% of \texttt{vas\_train} is held out as a development split (589 clips), and the remaining 11{,}184 clips are used for training.
+
+\subsection{Models}
+\label{sec:models}
+
+On FlashDot we train a GPT with 6 layers, 6 heads and width 384 from scratch on codes from the public SpecVQGAN VAS codebook, which is not retrained (batch 8, 2000 steps unless stated). On VAS we start from the public SpecVQGAN VAS transformer (24 layers, 16 heads, width 1024). To fit training on a laptop GPU, its weights are frozen in half precision and only LoRA adapters \citep{hu2022lora} are trained, on the key, query, value and output projections and both MLP layers of every block (rank 16, $\alpha = 16$, initialized so that training starts from the public model). All training uses AdamW \citep{loshchilov2019adamw}. \Cref{tab:hparams} lists all hyperparameters.
+
+\subsection{Metrics}
+\label{sec:metrics}
+
+Timing metrics compare a generated spectrogram with the ground-truth spectrogram of the same clip. The onset envelope is the spectral flux of the log-mel spectrogram (the sum over bins of positive frame-to-frame differences). \emph{Onset F1} matches generated and ground-truth onsets one to one within $\pm 100$\,ms \citep{raffel2014mireval}. \emph{Onset AP} ranks generated onsets by strength and counts a hit when one falls within $\pm 100$\,ms of an unmatched ground-truth onset, as in \citet{du2023conditional}. For the envelope metrics both envelopes are smoothed and mean-centred: \emph{envelope correlation} is their Pearson correlation at zero lag, and \emph{lag} is the shift within $\pm 1$\,s that maximizes their cross-correlation, reported as mean absolute value in ms and as the share of clips \emph{within one video frame} ($|\mathrm{lag}| \le 46.5$\,ms).
+
+On FlashDot, \emph{tone F1} is the frame-level F1 between the ground-truth on/off label and a tone detector that thresholds the mean of the three mel bins with the largest on-minus-off difference. Bins and threshold are chosen on VQGAN reconstructions of training clips. Random codes score about 0.20.
+
+Scoring a model with the critic it was selected against invites reward hacking, so \emph{held-out sync accuracy} uses a separate evaluation critic trained with the stage-1 recipe, a different seed and a different architecture (kernel 3, three blocks, width 384; on VAS its audio input is 8 band energies). It scores the whole clip ($S = 1$, $\sigma = 0$) over 21 offsets; we report the fraction of clips whose most likely offset is zero (tolerance 0) or within one frame of zero (tolerance 1). Chance is about $1/21$ and $3/21$. The critics are weak on VAS: development offset accuracy is 0.116 (0.288 within one frame) for the training critic and 0.124 (0.311) for the held-out critic. On FlashDot the training critic reaches 0.78 (0.81), limited by silent segments, which have no offset to find. On VAS we also report Melception FID and mean KL divergence (MKL) as in SpecVQGAN \citep{iashin2021taming}. The metric check (\cref{sec:res-metrics}) adds DTW distance on per-clip standardized mel frames \citep{salvador2007fastdtw} and mean absolute mel difference (mel L1).
+
+\subsection{Protocol}
+\label{sec:protocol}
+
+All settings are chosen on the development split, and each final configuration is run on the test split once. The FlashDot loss experiments and the preliminary re-ranking result are single runs (seed 0) on the development split; they are diagnostic. Main FlashDot results use three seeds (0, 1, 2) on the test split and report the mean and standard deviation over seeds; VAS results use one seed, because each fine-tuning arm takes several hours on our hardware. Comparisons between two systems on the same clips use a paired bootstrap over clips (10{,}000 resamples) of the per-clip difference, computed separately for each seed and reported as a 95\% percentile interval and a two-sided $p$ value, checked against a paired sign-flip permutation test. Seeds are the unit of replication: we report each seed's comparison rather than pooling clips across seeds. The window width $\sigma = 1$ was fixed in advance as the default for test runs; the window comparison on the test split is exploratory and not corrected for multiple comparisons.

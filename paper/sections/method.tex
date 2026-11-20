@@ -1,0 +1,99 @@
+\section{Method}
+\label{sec:method}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/pipeline.pdf}
+  \caption{Two uses of one frozen critic. (a) Stage 1: the critic embeds a real spectrogram (ground truth or its VQGAN reconstruction) and the clip's visual features and is trained so that zero offset wins the softmax over offsets. (b) PAL as a loss (\cref{sec:pal-loss}): a window of the transformer's logits is decoded with a straight-through estimator, scored by the critic, and PAL is added to the cross-entropy loss. (c) PAL as a reward (\cref{sec:reward}): free-running samples are decoded and scored, and the lowest-PAL sample is kept for output or for fine-tuning.}
+  \label{fig:pipeline}
+\end{figure}
+
+\subsection{Base generator: SpecVQGAN}
+\label{sec:specvqgan}
+
+We follow SpecVQGAN \citep{iashin2021taming}. Audio is an 80-bin log-mel spectrogram (86.1 frames per second) of 848 frames, about 9.8\,s, with values in $[0,1]$. A VQGAN \citep{esser2021taming} encodes it into a $5 \times 53$ grid of codes from a codebook $E \in \mathbb{R}^{|V| \times 256}$, $|V| = 128$; one code column covers 16 mel frames. The transformer reads codes in column-major order (the five codes of a column, then the next column), so a sequence has $N = 265$ tokens. It is a GPT whose input starts with the clip's 212 visual feature frames (2048-dimensional, 21.5 per second, four per code column), followed by the token embeddings. It is trained by teacher-forced cross-entropy, $\CE = -\frac{1}{N}\sum_{j} \log q_j(z_j)$ with $q_j = \operatorname{softmax}(\ell_j)$, where $z_j$ is the ground-truth code and $\ell_j \in \mathbb{R}^{|V|}$ the logits at position $j$, computed from the visual features and the ground-truth prefix $z_{<j}$. At test time codes are sampled autoregressively (top-$k$ with $k=100$, temperature 1) and decoded by the VQGAN decoder.
+
+\subsection{Synchronization critic}
+\label{sec:critic}
+
+The critic has an audio encoder and a video encoder of the same structure: two blocks of a temporal one-dimensional convolution (kernel 5, 256 channels), group normalization (8 groups) and GELU, then a $1 \times 1$ convolution to 128 dimensions and L2 normalization at every frame. The audio input is the spectrogram mapped to $[-1,1]$ and average-pooled by four along time, which brings it to the 212-frame rate of the visual features. In a band variant the audio encoder sees only $B \in \{8, 4, 1\}$ band energies, the means over equal groups of mel bins, so it can judge when energy changes but sees little of the spectral content. The design follows the local feature extractors of \citet{niu2023synchronization}. For a clip the critic gives unit-norm embeddings $a_1, \dots, a_T$ and $v_1, \dots, v_T$.
+
+\subsection{Perceptual Alignment Loss}
+\label{sec:pal}
+
+For offsets $o \in \{-K, \dots, K\}$ (in video frames), PAL\footnote{The name reflects the motivation from the temporal binding window; \cref{sec:discussion} reports that our results do not support a perceptual benefit of the window.} compares audio frame $i$ with video frame $i + o$, so a negative offset means the audio event comes after the visual one (audio late). The central frames $i \in [K, T-K)$ are split into $S$ equal consecutive segments $I_1, \dots, I_S$, so every offset compares the same number of real frames. For segment $s$,
+\begin{equation}
+  C_{s,o} = \frac{1}{|I_s|} \sum_{i \in I_s} \langle a_i, v_{i+o} \rangle, \qquad
+  p_{s,o} = \frac{\exp(C_{s,o}/\tau)}{\sum_{o'=-K}^{K} \exp(C_{s,o'}/\tau)} .
+  \label{eq:xcorr}
+\end{equation}
+The target is a window over offsets with weight one at zero,
+\begin{equation}
+  w_o = \exp\!\left(-\frac{o^2}{2\sigma_o^2}\right), \quad
+  \sigma_o = \begin{cases} \sigma_{\mathrm{late}} & o < 0 \ \text{(audio late)},\\ \sigma & o \geq 0 , \end{cases}
+  \qquad W_s = \sum_{o=-K}^{K} w_o \, p_{s,o} \in (0, 1] .
+  \label{eq:window}
+\end{equation}
+The symmetric window has $\sigma_{\mathrm{late}} = \sigma$; the asymmetric option sets $\sigma_{\mathrm{late}} > \sigma$, widening the window on the audio-late side in the direction of the human asymmetry. For $\sigma_o = 0$ we take $w_o$ to be the indicator of $o = 0$, so $\sigma = 0$ scores exact zero offset only. PAL averages the windowed mass over segments and takes the negative logarithm:
+\begin{equation}
+  \PAL = -\log\!\left(\frac{1}{S}\sum_{s=1}^{S} W_s\right).
+  \label{eq:pal}
+\end{equation}
+With $\sigma = 0$ and $S = 1$, \cref{eq:pal} is $-\log p_{1,0}$, the self-synchronization loss of \citet{niu2023synchronization}. The window gives partial credit for mass one or two frames from zero, and segmentation keeps one well-aligned stretch from hiding a badly aligned one. Stage 1 uses the per-segment reduction $-\frac{1}{S}\sum_s \log W_s$.
+
+\paragraph{Stage 1: training the critic.}
+The critic is trained on real clips with $\sigma = 0$, $K = 10$, $\tau = 0.1$ and the per-segment log reduction ($S = 8$ on VAS, $S = 4$ on FlashDot), so the negatives are the other offsets of the same clip \citep{owens2018audio,chung2019perfect} and the objective is a cross-entropy over offsets with zero offset as the target in every segment. The audio input is the VQGAN reconstruction of the ground truth (the ground truth itself with probability 0.3), since every spectrogram the critic scores later comes out of the same decoder. The critic is then frozen.
+
+\subsection{PAL as a training loss}
+\label{sec:pal-loss}
+
+The critic needs a spectrogram, while the transformer outputs a distribution over codes. With $q_j = \operatorname{softmax}(\ell_j)$, the decoded code vector is
+\begin{equation}
+  \hat e_j = \Bigl(\operatorname{onehot}\bigl(\arg\max_k q_{j,k}\bigr) + q_j - \sg(q_j)\Bigr)^{\!\top} E ,
+  \label{eq:st}
+\end{equation}
+where $\sg$ stops the gradient \citep{bengio2013estimating}. The forward value is the codebook entry of the most likely code, so the decoder only receives real codebook entries, and the backward pass uses the gradient of the expected code vector $q_j^{\top} E$. The code vectors are decoded by the frozen decoder and scored by the critic. To bound memory, PAL is computed on a random window of 12 code columns (about 2.2\,s, decoded with one extra column of context on each side) for four examples per batch, with $K = 8$, $S = 4$, $\tau = 0.1$ and $\sigma = 1$. The loss is $\mathcal{L} = \CE + \beta\,\PAL$.
+
+\paragraph{Corrupted-prefix PAL.}
+If the logits come from the teacher-forced pass, PAL scores the most likely codes given the ground-truth prefix. In column-major order the prefix contains the codes of every earlier column, which already show whether a sound is on, so these predictions can look aligned without any use of the video. We therefore also compute PAL on a second forward pass in which each input token is replaced by a uniformly random code with probability $1 - p^{\mathrm{PAL}}_{\mathrm{keep}}$. With $p^{\mathrm{PAL}}_{\mathrm{keep}} = 0$ the prefix carries no information, and the video is the only source of timing. Cross-entropy can use the same corruption on its own pass ($p_{\mathrm{keep}} < 1$), a simple form of training on imperfect prefixes in the spirit of scheduled sampling \citep{bengio2015scheduled}.
+
+\subsection{PAL as a reward on samples}
+\label{sec:reward}
+
+\paragraph{Best-of-$N$ re-ranking.}
+For each clip we draw $N$ free-running samples, score each with PAL under the training critic, and output the lowest-PAL sample. This needs no training and multiplies test-time cost by $N$.
+
+\paragraph{PAL-filtered self-training.}
+Self-training moves the selection into training (\cref{alg:selftrain}). Each round draws $N$ samples for a random subset of training clips, keeps the lowest-PAL sample per clip, and fine-tunes the generator with cross-entropy on batches that mix kept samples and ground truth half and half. The critic only ranks realistic outputs of the generator and is never differentiated. Two controls share every setting: \emph{random selection} keeps an arbitrary candidate (the one drawn first) in place of the lowest-PAL one, so any difference comes from the critic's choice; \emph{ground-truth-only} fine-tuning runs the same number of steps on ground truth alone, so any difference from it comes from training on the model's own samples. On VAS only LoRA adapters \citep{hu2022lora} on the frozen SpecVQGAN transformer are trained.
+
+\begin{algorithm}[t]
+  \caption{PAL-filtered self-training}
+  \label{alg:selftrain}
+  \small
+  \begin{algorithmic}[1]
+    \Require generator $G$, frozen decoder $D$ and critic, training clips $\{(x_i, z_i)\}$, rounds $R$, clips per round $M$, candidates $N$, steps per round $U$
+    \For{$r = 1, \dots, R$}
+      \State draw $M$ training clips $\mathcal{I}$
+      \For{$i \in \mathcal{I}$}
+        \State sample $\tilde z_i^{(1)}, \dots, \tilde z_i^{(N)} \sim G(\cdot \mid x_i)$ \Comment{free-running, top-$k$}
+        \State $k^\star \gets \arg\min_k \PAL\bigl(D(\tilde z_i^{(k)}), x_i\bigr)$ \Comment{random control: $k^\star \gets 1$}
+        \State $\hat z_i \gets \tilde z_i^{(k^\star)}$
+      \EndFor
+      \For{$U$ steps}
+        \State batch: half $(x_i, \hat z_i)$ with $i \in \mathcal{I}$, half $(x_j, z_j)$ from all training clips
+        \State update $G$ (or its LoRA adapters) by teacher-forced $\CE$ on the batch
+      \EndFor
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Diagnostics}
+\label{sec:diagnostics}
+
+Two cheap probes tell, before a long training run, whether a critic-based loss can work for a given autoregressive code model and frozen critic.
+
+\paragraph{Wrong-video cross-entropy.}
+We compute development cross-entropy twice, once with each clip's own visual features and once with the features of a different development clip, and repeat both with a fully corrupted prefix ($p_{\mathrm{keep}} = 0$). The first gap shows whether the model uses the video at all; the second, and its level against uniform ($\log |V| \approx 4.85$), whether the video alone can carry its predictions. If it cannot, a loss that needs the model to use the video has little to work with.
+
+\paragraph{Free-logit attack.}
+We replace the generator with free logits for eight development clips, initialized at random and optimized by Adam (learning rate 0.1, 200 steps) to minimize PAL through the same straight-through decoding and window as in training. If the PAL reached matches that of the ground-truth codes while the timing metrics (\cref{sec:metrics}) of the decoded optimum stay near those of random codes, the critic can be satisfied by audio that does not follow the video. We hypothesize that a generator trained against it can learn the same shortcut; we did not test this directly.
